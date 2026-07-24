@@ -411,18 +411,20 @@
 // chiunque ispezioni il codice sorgente. Per la maggior parte dei
 // casi d'uso (dati pubblici di collezione) è un rischio accettato
 // da molte dapp, ma è bene saperlo.
-const OPENSEA_API_KEY = "INSERISCI_QUI_LA_TUA_API_KEY";
+const OPENSEA_API_KEY = "ee7a76e2c6b3445bbdd49211f24d2978";
 
 // Le "famiglie" che compongono l'album. Ogni voce = una collezione
 // OpenSea. "chain" è "ethereum" o "matic" (Polygon).
 // Aggiorna gli slug con quelli reali delle tue collezioni.
 const ALBUM_GROUPS = [
-  { key: "girls",   label: "Girls",         icon: "👑", chain: "ethereum", slug: "dollygenesis" },
+  { key: "girls",   label: "Girls",         icon: "👑", chain: "matic", slug: "metamusex-pfp" },
   { key: "men",     label: "Men",           icon: "🤠", chain: "ethereum", slug: "metamusex-men-official" },
-  { key: "summer",  label: "Summer Vibes",  icon: "🌴", chain: "ethereum", slug: "metamusex-summer-vibes" },
-  { key: "child",   label: "Child",         icon: "🎈", chain: "ethereum", slug: "metamusex-child" },
-  { key: "3d",      label: "3D Special",    icon: "✨", chain: "ethereum", slug: "metamusex-3d-special" },
+  { key: "summer",  label: "Summer Vibes",  icon: "🌴", chain: "robinhood", slug: "metamusex-summer-vibes" },
+  { key: "cmetamusex-custom",   label: "1/1",         icon: "🎈", chain: "matic", slug: "metamusex-custom" },
+  { key: "3d",      label: "3D Special",    icon: "✨", chain: "matic", slug: "metamusex-3d-special" },
   { key: "farm",    label: "Dolly's Farm",  icon: "🐄", chain: "matic",    slug: "dolly-s-farm-pol" },
+   { key: "crazy",    label: "Crazy Dolly",  icon: "🐄", chain: "base",    slug: "crazydolly-men" },
+  { key: "dolly3d",    label: "dolly3d",  icon: "🐄", chain: "base",    slug: "dolly3d" }
 ];
 
 // Pagine "trait" dedicate: per una data collezione, mostra una
