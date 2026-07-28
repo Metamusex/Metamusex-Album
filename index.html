@@ -59,13 +59,20 @@
   button:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--ink); }
   button:disabled { opacity: 0.55; cursor: default; box-shadow: var(--shadow-hard-sm); }
   button.secondary { background: var(--paper); color: var(--ink); }
-  button.share-x { background: var(--ink); color: var(--paper); }
+  button.share-x {
+    background: var(--paper); color: var(--ink); font-family: 'Space Mono', monospace;
+    font-size: 13px; font-weight: 700; border: 2px solid var(--ink); border-radius: 999px;
+    padding: 9px 18px; box-shadow: var(--shadow-hard-sm); align-self: center;
+  }
+  button.share-x:hover { background: var(--yellow); transform: translate(-1px, -1px); box-shadow: var(--shadow-hard-sm); }
+  button.share-x:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--ink); }
   .wallet-chip {
     display: inline-flex; align-items: center; gap: 8px; margin-top: 18px;
     font-family: 'Space Mono', monospace; font-size: 13px; background: var(--ink); color: var(--paper);
     padding: 6px 14px; border-radius: 999px;
   }
   .wallet-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ADE80; }
+  .connect-options { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   .progress-section { padding: 36px 24px; text-align: center; }
   .progress-label { font-family: 'Space Mono', monospace; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
   .ticket-strip {
@@ -102,6 +109,38 @@
     font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.08em;
     border: 2px solid var(--pink); padding: 3px 30px; transform: rotate(18deg); border-radius: 3px; opacity: 0.9;
   }
+  .relax-caption-overlay {
+    position: fixed; inset: 0; background: rgba(27,27,31,0.75); z-index: 999;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .relax-caption-panel { background: var(--paper); max-width: 420px; width: 100%; padding: 20px; max-height: 90vh; overflow-y: auto; }
+  .relax-caption-title { font-family: 'Bangers', cursive; font-size: 26px; margin: 0 0 12px; }
+  .relax-caption-preview { width: 100%; border: 3px solid var(--ink); border-radius: 10px; margin-bottom: 14px; display: block; background: var(--grey); }
+  .relax-caption-styles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .relax-caption-style-btn {
+    font-family: 'Work Sans', sans-serif; font-size: 12px; font-weight: 700; padding: 8px 12px;
+    border: 2px solid var(--ink); border-radius: 10px; background: var(--paper); box-shadow: var(--shadow-hard-sm);
+  }
+  .relax-caption-style-btn.active { background: var(--blue); color: var(--paper); }
+  .relax-caption-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .relax-caption-preset-btn {
+    font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; padding: 8px 12px;
+    border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); box-shadow: var(--shadow-hard-sm);
+  }
+  .relax-caption-preset-btn.active { background: var(--yellow); }
+  .relax-caption-input {
+    width: 100%; font-family: 'Work Sans', sans-serif; font-size: 15px; padding: 10px 12px;
+    border: 2px solid var(--ink); border-radius: 10px; margin-bottom: 14px; box-sizing: border-box;
+  }
+  .relax-caption-actions { display: flex; flex-direction: column; gap: 10px; }
+  .relax-caption-actions button { width: 100%; }
+  .relax-caption-close { background: none; border: none; box-shadow: none; text-decoration: underline; font-size: 13px; padding: 4px; cursor: pointer; }
+  .relax-widget { margin-top: 10px; padding-top: 10px; border-top: 2px dashed var(--ink); display: flex; flex-direction: column; gap: 6px; }
+  .relax-bar-track { height: 10px; background: var(--paper); border: 2px solid var(--ink); border-radius: 999px; overflow: hidden; }
+  .relax-bar-fill { height: 100%; background: var(--pink); transition: width 0.3s ease; }
+  .relax-status { font-size: 11px; color: #6b6b70; }
+  .relax-btn { font-size: 12px; padding: 8px 14px; width: 100%; }
+  .relax-btn.secondary { background: var(--yellow); }
   .trait-page { display: none; margin-top: 16px; }
   .trait-page.active { display: block; }
   .owned-items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 8px; }
@@ -124,12 +163,26 @@
   a.trait-chip.missing:hover { background: var(--yellow); }
   .trait-chip.missing { color: var(--grey); border-color: var(--grey); }
   .trait-block { margin-bottom: 28px; }
-  .trait-block-header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .trait-block-header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; cursor: pointer; user-select: none; }
+  .trait-block-header:hover .trait-block-title { text-decoration: underline; }
   .trait-block-title { font-weight: 700; font-size: 16px; }
-  .trait-block-pct { font-size: 12px; color: #6b6b70; white-space: nowrap; }
+  .trait-block-pct { font-size: 12px; color: #6b6b70; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+  .trait-block-chevron { display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; transition: transform 0.2s ease; }
+  .trait-block.expanded .trait-block-chevron { transform: rotate(180deg); }
   .trait-progress-bar { height: 14px; background: var(--paper); border: 2px solid var(--ink); border-radius: 999px; overflow: hidden; margin-bottom: 12px; }
+  .trait-block-content { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.25s ease, opacity 0.2s ease; }
+  .trait-block.expanded .trait-block-content { max-height: 3000px; opacity: 1; }
   .trait-progress-fill { height: 100%; background: var(--pink); border-radius: 999px 0 0 999px; }
-  .back-link { display: inline-block; margin-bottom: 14px; font-family: 'Space Mono', monospace; font-size: 13px; text-decoration: underline; cursor: pointer; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px;
+    font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+    text-decoration: none; cursor: pointer; background: var(--paper);
+    border: 2px solid var(--ink); border-radius: 999px; padding: 9px 18px;
+    box-shadow: var(--shadow-hard-sm); transition: transform 0.08s ease;
+  }
+  .back-link:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-hard); background: var(--yellow); }
+  .back-link:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--ink); }
+  .back-link.bottom { margin: 36px 0 8px; }
   .badge-row { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; padding: 10px 0 30px; }
   .badge { width: 96px; text-align: center; }
   .badge .medal {
@@ -156,11 +209,17 @@
   .leaderboard-table th { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b70; }
   .leaderboard-table tr:last-child td { border-bottom: none; }
   .leaderboard-row-you { background: var(--yellow); }
+  .leaderboard-wallet-frame { display: inline-block; padding: 3px 10px; border-radius: 999px; border: 2px solid transparent; }
+  tr.rank-gold .leaderboard-wallet-frame { border-color: var(--yellow); background: rgba(255, 201, 60, 0.18); }
+  tr.rank-silver .leaderboard-wallet-frame { border-color: #B9B2A4; background: rgba(185, 178, 164, 0.22); }
+  tr.rank-bronze .leaderboard-wallet-frame { border-color: #CD7F32; background: rgba(205, 127, 50, 0.16); }
   .guide-list { display: flex; flex-direction: column; gap: 12px; }
   .guide-card { background: var(--paper); border: 3px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow-hard-sm); padding: 14px 18px; display: flex; gap: 14px; align-items: flex-start; }
   .guide-card .guide-icon { font-size: 28px; line-height: 1; }
   .guide-card .guide-name { font-weight: 700; margin-bottom: 4px; }
   .guide-card .guide-desc { font-size: 13px; color: #55555a; line-height: 1.4; }
+  .guide-card.suggestion { border-color: var(--pink); }
+  .guide-card.suggestion .guide-desc a { color: var(--pink); font-weight: 700; }
   .airdrop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 8px; }
   .airdrop-item-card {
     display: block; background: var(--paper); border: 3px solid var(--ink); border-radius: 10px;
@@ -183,6 +242,10 @@
   }
   .collection-buy-link:hover { text-decoration: underline; }
   .empty-state { text-align: center; padding: 60px 24px; color: #6b6b70; }
+  .loyalty-chip {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-family: 'Space Mono', monospace;
+    font-size: 12px; background: var(--paper); border: 2px solid var(--ink); border-radius: 999px; padding: 5px 12px;
+  }
   .badge-unlock-overlay {
     position: fixed; inset: 0; background: rgba(27, 27, 31, 0.6); display: flex; align-items: center;
     justify-content: center; z-index: 1000; padding: 20px;
@@ -197,6 +260,57 @@
   .badge-unlock-list .badge .medal { width: 66px; height: 66px; font-size: 28px; }
   .badge-unlock-actions { display: flex; flex-direction: column; gap: 10px; }
   .share-row { display: flex; justify-content: center; margin: 18px 0 4px; }
+  .profile-header { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 20px; margin-bottom: 20px; }
+  .profile-avatar {
+    cursor: pointer; width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--ink);
+    box-shadow: var(--shadow-hard-sm); background: var(--panel); display: flex; align-items: center;
+    justify-content: center; font-size: 34px; overflow: hidden; flex-shrink: 0; transition: transform 0.08s ease;
+  }
+  .profile-avatar:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-hard); }
+  .profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .profile-name-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .profile-name-input {
+    font-family: 'Space Mono', monospace; font-size: 14px; padding: 9px 14px; border: 2px solid var(--ink);
+    border-radius: 999px; background: var(--paper); flex: 1; min-width: 160px;
+  }
+  .avatar-picker-section { margin-bottom: 18px; text-align: left; }
+  .avatar-picker-label {
+    font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: #6b6b70; margin-bottom: 10px;
+  }
+  .avatar-emoji-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .avatar-emoji-choice {
+    font-size: 26px; width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--ink);
+    background: var(--paper); cursor: pointer; box-shadow: var(--shadow-hard-sm); transition: transform 0.08s ease;
+  }
+  .avatar-emoji-choice:hover { transform: translate(-1px, -1px); background: var(--yellow); }
+  .avatar-nft-grid { display: flex; flex-wrap: wrap; gap: 8px; max-height: 190px; overflow-y: auto; padding: 2px; }
+  .avatar-nft-choice {
+    padding: 0; border: 2px solid var(--ink); border-radius: 10px; overflow: hidden; cursor: pointer;
+    width: 62px; height: 62px; flex-shrink: 0; transition: transform 0.08s ease;
+  }
+  .avatar-nft-choice:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-hard-sm); }
+  .avatar-nft-choice img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .wc-overlay {
+    position: fixed; inset: 0; background: rgba(27, 27, 31, 0.6); display: flex; align-items: center;
+    justify-content: center; z-index: 1000; padding: 20px;
+  }
+  .wc-modal {
+    max-width: 380px; width: 100%; padding: 24px 22px; text-align: center;
+    background: var(--paper); animation: badgePopIn 0.2s ease; max-height: 90vh; overflow-y: auto;
+  }
+  .wc-modal-title { font-size: 26px; margin-bottom: 6px; }
+  .wc-modal-sub { font-size: 13px; color: #6b6b70; margin-bottom: 16px; }
+  .wc-qr-wrap {
+    background: #fff; border: 3px solid var(--ink); border-radius: 12px; padding: 12px;
+    display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  }
+  .wc-qr-wrap canvas { display: block; max-width: 100%; height: auto; }
+  .wc-deeplinks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .wc-deeplinks a button { width: 100%; background: var(--paper); }
+  .wc-copy-btn { width: 100%; background: var(--paper); margin-bottom: 10px; }
+  .wc-close-btn { width: 100%; }
+  .wc-status { font-family: 'Space Mono', monospace; font-size: 12px; color: #6b6b70; margin-bottom: 12px; }
   footer { text-align: center; font-family: 'Space Mono', monospace; font-size: 12px; color: #8b8b90; padding: 30px 0 10px; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -207,7 +321,10 @@
   <span class="eyebrow">Collector Edition</span>
   <h1 class="display">METAMUSEX/DOLLY<br/>COLLECTOR ALBUM</h1>
   <p>Connect your wallet to see which MetaMuseX families you've already collected — and which ones you still need to complete the album.</p>
-  <button id="connectBtn">Connect Wallet</button>
+  <div class="connect-options">
+    <button id="connectBtn">Connect Wallet</button>
+    <button id="connectMobileBtn" class="secondary">📱 Connect via Mobile</button>
+  </div>
   <div id="walletChip"></div>
 </div>
 
@@ -220,16 +337,19 @@
   <div id="albumContent" style="display:none;">
 
     <div class="page-nav-buttons" id="pageNavButtons">
-      <button type="button" id="statsBtn" class="secondary">📊 My Stats</button>
+      <button type="button" id="statsBtn" class="secondary">📊 Collector Profile</button>
       <button type="button" id="airdropBtn" class="secondary">🎁 Airdrop</button>
       <button type="button" id="badgeGuideBtn" class="secondary">📖 Badge Guide</button>
-      <button type="button" id="leaderboardBtn" class="secondary" style="display:none;">👑 Leaderboard</button>
+      <button type="button" id="leaderboardBtn" class="secondary">👑 Leaderboard</button>
     </div>
 
     <div class="progress-section panel" style="margin-top: 24px;">
-      <div class="progress-label mono">Collection Progress</div>
+      <div class="progress-label mono">Collector Rank</div>
       <div class="ticket-strip" id="ticketStrip"></div>
       <div class="progress-percent mono" id="progressPercent">0%</div>
+      <div class="display" id="collectorRankTitle" style="font-size: 26px; color: var(--purple); margin-top: 4px; text-shadow: 2px 2px 0 var(--ink);"></div>
+      <div id="loyaltyChip"></div>
+      <div style="margin-top: 10px;"><span class="mono" style="font-size: 12px; text-decoration: underline; cursor: pointer; color: #6b6b70;" onclick="showBadgeGuidePage()">How is this calculated?</span></div>
     </div>
 
     <div id="mainView">
@@ -257,6 +377,8 @@
   <div class="badge-unlock-modal panel">
     <div class="badge-unlock-title display">New Badge Unlocked! 🎉</div>
     <div class="badge-unlock-list" id="badgeUnlockList"></div>
+    <div id="badgeUnlockDesc" class="mono" style="font-size: 13px; color: #55555a; margin: -6px 0 18px; display: none;"></div>
+    <div class="mono" style="font-size: 11px; color: #6b6b70; margin: -8px 0 16px;">Sharing downloads a badge image too — attach it to your tweet before posting.</div>
     <div class="badge-unlock-actions">
       <button type="button" class="share-x" id="badgeUnlockShareBtn">𝕏 Share on X</button>
       <button type="button" id="badgeUnlockCloseBtn">Awesome!</button>
@@ -264,24 +386,91 @@
   </div>
 </div>
 
+<div id="levelUpOverlay" class="badge-unlock-overlay" style="display:none;">
+  <div class="badge-unlock-modal panel">
+    <div class="badge-unlock-title display">Level Up! 🚀</div>
+    <div id="levelUpRankIcon" style="font-size: 60px; margin-bottom: 8px;"></div>
+    <div id="levelUpRankTitle" class="display" style="font-size: 28px; color: var(--purple); margin-bottom: 20px; text-shadow: 2px 2px 0 var(--ink);"></div>
+    <div class="badge-unlock-actions">
+      <button type="button" id="levelUpCloseBtn">Nice!</button>
+    </div>
+  </div>
+</div>
+
+<div id="avatarPickerOverlay" class="badge-unlock-overlay" style="display:none;">
+  <div class="badge-unlock-modal panel" style="max-width:480px;">
+    <div class="badge-unlock-title display" style="font-size:26px;">Choose Your Avatar</div>
+    <div class="avatar-picker-section">
+      <div class="avatar-picker-label">Pick an emoji</div>
+      <div class="avatar-emoji-grid" id="avatarEmojiGrid"></div>
+    </div>
+    <div class="avatar-picker-section" id="avatarNftSection"></div>
+    <div class="avatar-picker-section" style="text-align:center;">
+      <div class="avatar-picker-label">Or use your own image</div>
+      <input type="file" accept="image/*" id="avatarUploadInput" style="display:none;" />
+      <button type="button" class="share-x" id="avatarUploadBtn" style="align-self:center;">📤 Upload your own</button>
+    </div>
+    <div class="badge-unlock-actions" style="margin-top:6px;">
+      <button type="button" id="avatarPickerCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="airdropDropOverlay" class="badge-unlock-overlay" style="display:none;">
+  <div class="badge-unlock-modal panel">
+    <div class="badge-unlock-title display">New Airdrop Received! 🎁</div>
+    <div class="owned-items-grid" id="airdropDropList" style="margin-bottom:18px;"></div>
+    <div class="badge-unlock-actions">
+      <button type="button" id="airdropDropCloseBtn">Awesome!</button>
+    </div>
+  </div>
+</div>
+
+<div id="wcOverlay" class="wc-overlay" style="display:none;">
+  <div class="wc-modal panel">
+    <div class="wc-modal-title display">Connect via Mobile</div>
+    <div class="wc-modal-sub">Scan the QR code with your wallet app, or tap a wallet below to open it directly on this device.</div>
+    <div class="wc-qr-wrap" id="wcQrWrap"><canvas id="wcQrCanvas"></canvas></div>
+    <div class="wc-status" id="wcStatus">Waiting for connection…</div>
+    <div class="wc-deeplinks" id="wcDeeplinks"></div>
+    <button type="button" class="wc-copy-btn" id="wcCopyBtn">Copy connection link</button>
+    <button type="button" class="wc-close-btn" id="wcCloseBtn">Cancel</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
 /* ==========================================================
    CONFIG — questa è l'UNICA sezione che dovresti modificare.
 ========================================================== */
 
-const OPENSEA_API_KEY = "ee7a76e2c6b3445bbdd49211f24d2978";
+// La chiave OpenSea NON è più qui: la aggiunge il Cloudflare Worker (proxy) lato server.
+const OPENSEA_PROXY_BASE = "https://metamusex-proxy.metamusex.workers.dev";
 const FOUNDER_ADDRESS = "0xD7ac51b7647110064Ff484b1e2961dF4Ad6c0D7b";
 
+// Project ID di WalletConnect (cloud.walletconnect.com / cloud.reown.com),
+// necessario per permettere la connessione da wallet mobile (MetaMask,
+// Trust Wallet, Rainbow, ecc.) via QR code o deep link, oltre al classico
+// wallet da estensione browser (window.ethereum).
+const WALLETCONNECT_PROJECT_ID = "66a078c73dfce6e101e873f5cc6e0e8b";
+
+// URL del Web App di Google Apps Script collegato al Google Sheet che
+// funge da "database" della leaderboard (vedi apps-script.gs incluso
+// insieme a questo file per le istruzioni di deploy). Finché questo
+// valore resta vuoto, la leaderboard mostra solo un avviso di configurazione.
+const LEADERBOARD_API_URL = "https://script.google.com/macros/s/AKfycbwYPL48XHqg6XLuGuX3ICab02CtV73KUvs7JkyMzvd54Br3MwSX1M-jPA4zHFaflDQzyA/exec";
+
 const ALBUM_GROUPS = [
-  { key: "girls",   label: "Girls",         icon: "👑", chain: "matic", slug: "metamusex-pfp", traitsUnavailable: true },
+  { key: "girls",   label: "Girls",         icon: "👑", chain: "matic", slug: "metamusex-pfp", traitsUnavailable: true, completionThreshold: 30 },
   { key: "men",     label: "Men",           icon: "🤠", chain: "ethereum", slug: "metamusex-men-official", rareFindAlsoIfOwns: ["onefone", "3dbase", "dolly3d"] },
   { key: "summer",  label: "Summer Vibes",  icon: "🌴", chain: "robinhood", slug: "metamusex-summer-vibes" },
   { key: "onefone",  label: "1/1",         icon: "🎈", chain: "matic", slug: "metamusex-custom", special: true },
-  { key: "3dbase",  label: "3D",            icon: "🌀", chain: "matic", slug: "metamusex-3d", special: true },
+  { key: "3dbase",  label: "3D",            icon: "🌀", chain: "matic", slug: "metamusex-3d", special: true, completionThreshold: 1 },
   { key: "farm",    label: "Dolly's Farm",  icon: "🐄", chain: "matic",    slug: "dolly-s-farm-pol" },
   { key: "crazy",    label: "Crazy Dolly",  icon: "🐄", chain: "base",    slug: "crazydolly-men" },
-  { key: "dolly3d",    label: "Dolly 3D",  icon: "🐄", chain: "base",    slug: "dolly3d", special: true },
-  { key: "dollygenesis", label: "Dollygenesis", icon: "🧬", chain: "matic", slug: "dollygenesis", special: true }
+  { key: "dolly3d",    label: "Dolly 3D",  icon: "🐄", chain: "base",    slug: "dolly3d", special: true, completionThreshold: 1 },
+  { key: "dollygenesis", label: "Dollygenesis", icon: "🧬", chain: "matic", slug: "dollygenesis", special: true, completionThreshold: 1 }
 ];
 
 const TRAIT_PAGES = [];
@@ -378,6 +567,93 @@ const BADGES = [
   { key: "og", label: "OG Holder", icon: "⭐", check: (data) => data.groupsOwned.size >= 5 },
   { key: "diamond", label: "Diamond Collector", icon: "💎", check: (data) => data.groupsOwned.size === ALBUM_GROUPS.length },
   { key: "chain-hopper", label: "Multi-Chain", icon: "🌉", check: (data) => countChainsOwned(data) >= 2 },
+  { key: "rare-collector", label: "Rare Collector", icon: "🐋", check: (data) => countRarePiecesOwned(data) >= 5 },
+];
+
+// ==========================================================
+// SECRET BADGES — badge "misteriosi": non compaiono nella Badge Guide né
+// altrove finché non vengono sbloccati. Alcuni richiedono il possesso di
+// NFT specifici (es. premi vinti nel gioco Discord "Muse Battle"), altri
+// derivano da combinazioni particolari dei dati già disponibili.
+// ==========================================================
+
+// Contratto/chain su cui vivono i pezzi premio del gioco Discord "Muse Battle".
+const SECRET_ITEMS_CHAIN = "matic";
+const SECRET_ITEMS_CONTRACT = "0x0b8c418cef5297dbe6b63dcfc3b181693a7074d6";
+
+const LOYALTY_TIERS = [
+  { min: 1, icon: "👋", label: "Newcomer" },
+  { min: 3, icon: "🔁", label: "Regular" },
+  { min: 7, icon: "🔥", label: "Devoted" },
+  { min: 15, icon: "🌟", label: "Superfan" },
+  { min: 30, icon: "🏵️", label: "Legend" },
+];
+
+function getLoyaltyTier(days) {
+  let tier = LOYALTY_TIERS[0];
+  LOYALTY_TIERS.forEach((t) => { if (days >= t.min) tier = t; });
+  return tier;
+}
+
+function countUltraRareTraitsOwned(data) {
+  let count = 0;
+  ALBUM_GROUPS.forEach((g) => {
+    if (g.special || g.traitsUnavailable) return;
+    count += getRareTraitValuesOwned(data, g.key, RARE_TRAIT_MAX_COUNT).filter((r) => r.earned).length;
+  });
+  return count;
+}
+
+const SECRET_BADGES = [
+  {
+    key: "musebattle-wildwest",
+    icon: "🤠",
+    label: "Muse Battle: Wild West Chronicles 2025-26",
+    desc: "Won by claiming both Wild West Chronicles prize pieces from Discord's Muse Battle game.",
+    check: (data) => !!(data.secretOwnedIds && data.secretOwnedIds.has("81") && data.secretOwnedIds.has("82")),
+  },
+  {
+    key: "men-devotee",
+    icon: "❤️",
+    label: "Men's Collection Devotee",
+    desc: "Awarded to true fans of the Men collection who hold this special piece.",
+    check: (data) => !!(data.secretOwnedIds && data.secretOwnedIds.has("88")),
+  },
+  {
+    key: "chain-master",
+    icon: "🌉",
+    label: "Chain Master",
+    desc: `Own at least one NFT on every blockchain used across the album (${[...new Set(ALBUM_GROUPS.map((g) => g.chain))].length} chains).`,
+    check: (data) => countChainsOwned(data) >= new Set(ALBUM_GROUPS.map((g) => g.chain)).size,
+  },
+  {
+    key: "rare-hunter",
+    icon: "🐋",
+    label: "Rare Hunter",
+    desc: "Own 3 or more ultra-rare trait values across your whole collection.",
+    check: (data) => countUltraRareTraitsOwned(data) >= 3,
+  },
+  {
+    key: "special-ops",
+    icon: "🕶️",
+    label: "Special Ops",
+    desc: "Own at least one piece from every special collection: 1/1, 3D, Dolly 3D, and Dollygenesis.",
+    check: (data) => ["onefone", "3dbase", "dolly3d", "dollygenesis"].every((k) => (data.byGroup[k] || []).length > 0),
+  },
+  {
+    key: "loyal-visitor",
+    icon: "📅",
+    label: "Loyal Visitor",
+    desc: "Came back to check the album on 7 different days.",
+    check: (data) => (data.visitDays || 0) >= 7,
+  },
+  {
+    key: "midnight-collector",
+    icon: "🌙",
+    label: "Midnight Collector",
+    desc: "Checked the album between midnight and 5am. The collection never sleeps.",
+    check: () => { const h = new Date().getHours(); return h >= 0 && h < 5; },
+  },
 ];
 
 // ==========================================================
@@ -386,6 +662,29 @@ const BADGES = [
 // ==========================================================
 const SHARE_HASHTAGS = "#MetaMuseX #NFT";
 
+// ==========================================================
+// COLLECTOR RANK — titoli assegnati in base al Collector Rank % (la media
+// di completamento su tutte le collezioni). Più sali di percentuale, più
+// sale il titolo: è pensato per dare un senso di progressione e orgoglio,
+// non solo un numero. Modifica pure soglie/titoli qui.
+// ==========================================================
+const COLLECTOR_RANKS = [
+  { min: 0, title: "Rookie Collector" },
+  { min: 20, title: "Enthusiast Collector" },
+  { min: 40, title: "Dedicated Collector" },
+  { min: 60, title: "Elite Collector" },
+  { min: 80, title: "Master Collector" },
+  { min: 100, title: "Legendary Collector" },
+];
+
+const COLLECTOR_RANK_ICONS = ["🌱", "🙂", "💪", "🔷", "👑", "🏆"];
+
+function getCollectorRank(pct) {
+  let rank = COLLECTOR_RANKS[0];
+  for (const r of COLLECTOR_RANKS) { if (pct >= r.min) rank = r; }
+  return rank;
+}
+
 /* ==========================================================
    LOGICA — non serve modificare da qui in giù.
 ========================================================== */
@@ -393,6 +692,7 @@ const SHARE_HASHTAGS = "#MetaMuseX #NFT";
 let currentAddress = null;
 
 const connectBtn = document.getElementById("connectBtn");
+const connectMobileBtn = document.getElementById("connectMobileBtn");
 const walletChip = document.getElementById("walletChip");
 const emptyState = document.getElementById("emptyState");
 const albumContent = document.getElementById("albumContent");
@@ -402,6 +702,8 @@ const mainView = document.getElementById("mainView");
 const badgeRow = document.getElementById("badgeRow");
 const ticketStrip = document.getElementById("ticketStrip");
 const progressPercent = document.getElementById("progressPercent");
+const collectorRankTitle = document.getElementById("collectorRankTitle");
+const loyaltyChip = document.getElementById("loyaltyChip");
 const statsBtn = document.getElementById("statsBtn");
 const airdropBtn = document.getElementById("airdropBtn");
 const badgeGuideBtn = document.getElementById("badgeGuideBtn");
@@ -415,35 +717,116 @@ let lastTraitsMeta = null;
 let lastBadgeData = null;
 let lastUnlockedBadges = [];
 
+// Click delegato per i blocchi trait/serie collassabili: funziona anche sui
+// blocchi (ri)generati dinamicamente dopo il caricamento dell'album, senza
+// dover riattaccare listener ogni volta che si ricostruisce l'HTML.
+document.addEventListener("click", (e) => {
+  const header = e.target.closest(".trait-block-header");
+  if (!header) return;
+  const block = header.closest(".trait-block");
+  if (block) block.classList.toggle("expanded");
+});
+
 connectBtn.addEventListener("click", connectWallet);
+connectMobileBtn.addEventListener("click", connectWalletMobile);
 statsBtn.addEventListener("click", showStatsPage);
 airdropBtn.addEventListener("click", showAirdropPage);
 badgeGuideBtn.addEventListener("click", showBadgeGuidePage);
 leaderboardBtn.addEventListener("click", showLeaderboardPage);
 document.getElementById("badgeUnlockCloseBtn").addEventListener("click", hideBadgeUnlockPopup);
 document.getElementById("badgeUnlockShareBtn").addEventListener("click", shareUnlockedBadgesOnX);
+document.getElementById("levelUpCloseBtn").addEventListener("click", hideLevelUpPopup);
+document.getElementById("wcCloseBtn").addEventListener("click", () => hideWalletConnectModal(true));
+document.getElementById("wcCopyBtn").addEventListener("click", copyWalletConnectUri);
+document.getElementById("avatarPickerCloseBtn").addEventListener("click", hideAvatarPicker);
+document.getElementById("airdropDropCloseBtn").addEventListener("click", hideAirdropDropPopup);
+document.getElementById("avatarUploadBtn").addEventListener("click", () => document.getElementById("avatarUploadInput").click());
+document.getElementById("avatarUploadInput").addEventListener("change", async (e) => {
+  const uploadBtn = document.getElementById("avatarUploadBtn");
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  try {
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = "Uploading...";
+    const dataUrl = await resizeImageFileToDataUrl(file);
+    const profile = getStoredProfile(currentAddress);
+    profile.avatarImage = { url: dataUrl };
+    applyAvatarChoice(profile);
+  } catch (err) {
+    console.warn("Avatar upload failed:", err);
+    alert("Couldn't use that image — please try a smaller or different image file.");
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = "📤 Upload your own";
+    e.target.value = "";
+  }
+});
+
+// ==========================================================
+// CONNESSIONE WALLET — estensione browser (desktop) oppure
+// WalletConnect (QR code / deep link, per wallet mobile).
+// ==========================================================
 
 async function connectWallet() {
-  if (!window.ethereum) {
-    alert("No wallet found. Please install MetaMask (or another browser wallet) and try again.");
-    return;
+  // Su desktop con un'estensione installata usiamo quella (più veloce).
+  // Se non c'è nessuna estensione (tipico su mobile, dove i browser non
+  // hanno window.ethereum a meno di essere dentro l'in-app browser di un
+  // wallet), passiamo automaticamente a WalletConnect invece di mostrare
+  // un errore "installa MetaMask" che su mobile non avrebbe senso.
+  if (window.ethereum) {
+    await connectWithInjectedProvider();
+  } else {
+    await connectWalletMobile();
   }
+}
+
+async function connectWithInjectedProvider() {
   try {
     connectBtn.disabled = true;
     connectBtn.textContent = "Connecting...";
     const provider = new ethers.BrowserProvider(window.ethereum);
     const accounts = await provider.send("eth_requestAccounts", []);
-    currentAddress = accounts[0];
-    walletChip.innerHTML = `<div class="wallet-chip"><span class="dot"></span>${shortAddress(currentAddress)}</div>`;
-    connectBtn.textContent = "Connected";
-    await registerLeaderboardUser(currentAddress);
-    await loadAlbum(currentAddress);
+    await onWalletConnected(accounts[0]);
   } catch (err) {
     console.error(err);
     alert("Wallet connection failed. Please try again.");
+  } finally {
     connectBtn.disabled = false;
     connectBtn.textContent = "Connect Wallet";
   }
+}
+
+// Punto di ingresso esplicito per la connessione via mobile (bottone
+// dedicato "📱 Connect via Mobile"): apre sempre WalletConnect, anche se è
+// presente un'estensione browser — utile su desktop per inquadrare il QR
+// con il telefono, ed è l'unico percorso disponibile su mobile senza
+// estensione.
+async function connectWalletMobile() {
+  try {
+    connectMobileBtn.disabled = true;
+    connectMobileBtn.textContent = "Connecting...";
+    const wcProvider = await getWalletConnectProvider();
+    const provider = new ethers.BrowserProvider(wcProvider);
+    const accounts = await provider.send("eth_requestAccounts", []);
+    hideWalletConnectModal(false);
+    await onWalletConnected(accounts[0]);
+  } catch (err) {
+    console.error(err);
+    hideWalletConnectModal(false);
+    if (String((err && err.message) || err).toLowerCase().includes("modal closed") === false) {
+      alert("WalletConnect connection failed. Please try again.");
+    }
+  } finally {
+    connectMobileBtn.disabled = false;
+    connectMobileBtn.textContent = "📱 Connect via Mobile";
+  }
+}
+
+async function onWalletConnected(address) {
+  currentAddress = address;
+  walletChip.innerHTML = `<div class="wallet-chip"><span class="dot"></span>${shortAddress(currentAddress)}</div>`;
+  connectBtn.textContent = "Connected";
+  await loadAlbum(currentAddress);
 }
 
 function shortAddress(addr) {
@@ -452,6 +835,102 @@ function shortAddress(addr) {
 
 function openSeaCollectionUrl(slug) {
   return `https://opensea.io/collection/${slug}`;
+}
+
+// ==========================================================
+// WALLETCONNECT — provider condiviso (riusato per riconnettersi senza
+// dover reinizializzare) più il nostro mini-modal con QR code e deep link
+// ai wallet mobile più comuni, costruito a partire dall'URI di
+// connessione ("display_uri") che WalletConnect emette.
+// ==========================================================
+
+let wcProviderInstance = null;
+let wcCurrentUri = null;
+
+async function getWalletConnectProvider() {
+  if (wcProviderInstance) return wcProviderInstance;
+  const lib = window["@walletconnect/ethereum-provider"];
+  if (!lib || !lib.EthereumProvider) {
+    throw new Error("WalletConnect library failed to load.");
+  }
+  wcProviderInstance = await lib.EthereumProvider.init({
+    projectId: WALLETCONNECT_PROJECT_ID,
+    chains: [1],
+    optionalChains: [137, 8453],
+    showQrModal: false, // usiamo il nostro modal custom, con QR + deep link
+    metadata: {
+      name: "MetaMuseX/Dolly Collector Album",
+      description: "Connect your wallet to see your MetaMuseX/Dolly collection",
+      url: window.location.origin || "https://metamusex.example",
+      icons: [],
+    },
+  });
+  wcProviderInstance.on("display_uri", (uri) => showWalletConnectModal(uri));
+  wcProviderInstance.on("disconnect", () => { wcProviderInstance = null; });
+  return wcProviderInstance;
+}
+
+// Deep link universali ufficiali dei wallet mobile più diffusi: aprono
+// direttamente l'app (se installata) con la richiesta di connessione già
+// pronta, senza dover scansionare il QR — utile quando si clicca il
+// bottone direttamente DAL telefono.
+function walletDeepLinks(uri) {
+  const encoded = encodeURIComponent(uri);
+  return [
+    { name: "MetaMask", url: `https://metamask.app.link/wc?uri=${encoded}` },
+    { name: "Trust Wallet", url: `https://link.trustwallet.com/wc?uri=${encoded}` },
+    { name: "Rainbow", url: `https://rnbwapp.com/wc?uri=${encoded}` },
+    { name: "Coinbase Wallet", url: `https://go.cb-w.com/wc?uri=${encoded}` },
+  ];
+}
+
+function showWalletConnectModal(uri) {
+  wcCurrentUri = uri;
+  const overlay = document.getElementById("wcOverlay");
+  const status = document.getElementById("wcStatus");
+  const deeplinksEl = document.getElementById("wcDeeplinks");
+  status.textContent = "Waiting for connection…";
+
+  deeplinksEl.innerHTML = "";
+  walletDeepLinks(uri).forEach(({ name, url }) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = `Open in ${name}`;
+    a.appendChild(btn);
+    deeplinksEl.appendChild(a);
+  });
+
+  overlay.style.display = "flex";
+
+  // Genera il QR code nel canvas, se la libreria è disponibile.
+  const canvas = document.getElementById("wcQrCanvas");
+  if (window.QRCode && canvas) {
+    window.QRCode.toCanvas(canvas, uri, { width: 220, margin: 1 }, (err) => {
+      if (err) console.warn("QR code generation failed:", err);
+    });
+  }
+}
+
+function hideWalletConnectModal(disconnect) {
+  document.getElementById("wcOverlay").style.display = "none";
+  if (disconnect && wcProviderInstance) {
+    try { wcProviderInstance.disconnect(); } catch (err) { /* no-op */ }
+  }
+}
+
+async function copyWalletConnectUri() {
+  if (!wcCurrentUri) return;
+  try {
+    await navigator.clipboard.writeText(wcCurrentUri);
+    const status = document.getElementById("wcStatus");
+    status.textContent = "Link copied to clipboard!";
+  } catch (err) {
+    console.warn("Clipboard copy failed:", err);
+  }
 }
 
 // Apre l'intent di condivisione di X (ex Twitter) con un testo precompilato
@@ -466,47 +945,454 @@ function shareOnX(text) {
 function shareUnlockedBadgesOnX() {
   if (lastUnlockedBadges.length === 0) return;
   const names = lastUnlockedBadges.map((b) => `${b.icon} ${b.label}`).join(", ");
-  const text =
-    lastUnlockedBadges.length === 1
-      ? `I just unlocked the ${names} badge in my MetaMuseX/Dolly Collector Album! ${SHARE_HASHTAGS}`
-      : `I just unlocked ${lastUnlockedBadges.length} new badges in my MetaMuseX/Dolly Collector Album: ${names}! ${SHARE_HASHTAGS}`;
+  let text;
+  if (lastUnlockedBadges.length === 1) {
+    const b = lastUnlockedBadges[0];
+    text = `I just unlocked the ${b.icon} ${b.label} badge in my MetaMuseX/Dolly Collector Album!${b.desc ? ` ${b.desc}` : ""} ${SHARE_HASHTAGS}`;
+  } else {
+    text = `I just unlocked ${lastUnlockedBadges.length} new badges in my MetaMuseX/Dolly Collector Album: ${names}! ${SHARE_HASHTAGS}`;
+  }
+  try {
+    const canvas = buildBadgeShareCanvas(lastUnlockedBadges);
+    downloadCanvasAsPng(canvas, "metamusex-badge.png");
+  } catch (err) {
+    console.warn("Could not generate badge share image:", err);
+  }
   shareOnX(text);
+}
+
+// ==========================================================
+// CONFETTI — piccola animazione vanilla (nessuna libreria esterna) da
+// far partire nel momento in cui si sblocca un badge o si sale di
+// Collector Rank, per rendere il momento più soddisfacente. Rispetta
+// prefers-reduced-motion, come il resto del sito.
+// ==========================================================
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function fireConfetti() {
+  if (prefersReducedMotion()) return;
+  const canvas = document.createElement("canvas");
+  canvas.style.position = "fixed";
+  canvas.style.inset = "0";
+  canvas.style.zIndex = "1100";
+  canvas.style.pointerEvents = "none";
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+  const colors = ["#FF3D7F", "#2E6DF2", "#FFC93C", "#8B5CF6", "#4ADE80"];
+  const particles = Array.from({ length: 140 }, () => ({
+    x: Math.random() * canvas.width,
+    y: -20 - Math.random() * canvas.height * 0.4,
+    r: 4 + Math.random() * 5,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: -2 + Math.random() * 4,
+    vy: 2 + Math.random() * 3,
+    rot: Math.random() * 360,
+    vr: -6 + Math.random() * 12,
+    shape: Math.random() < 0.5 ? "rect" : "circle",
+  }));
+  let frame = 0;
+  const maxFrames = 130;
+  function step() {
+    frame++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.04;
+      p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rot * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      if (p.shape === "rect") ctx.fillRect(-p.r, -p.r * 0.6, p.r * 2, p.r * 1.2);
+      else { ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill(); }
+      ctx.restore();
+    });
+    if (frame < maxFrames) {
+      requestAnimationFrame(step);
+    } else {
+      canvas.remove();
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+// ==========================================================
+// IMMAGINE STATISTICHE — X non permette di allegare automaticamente
+// un'immagine a un tweet aperto via link (serve OAuth completo, non
+// fattibile per un sito statico senza backend). La soluzione pratica è
+// generare una "card" riassuntiva con Canvas e scaricarla: l'utente la
+// allega poi a mano al tweet, che nel frattempo si apre già con il testo
+// pronto. Tutto il lavoro resta sincrono (niente await prima di
+// window.open) per evitare che i browser blocchino il popup del tweet.
+// ==========================================================
+
+function roundRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function buildStatsShareCanvas(data, earned, totalBadges) {
+  const W = 1200, H = 630;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  // Sfondo + puntini decorativi (richiamano lo sfondo del sito)
+  ctx.fillStyle = "#FFF8F0";
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = "rgba(185,178,164,0.35)";
+  for (let y = 14; y < H; y += 22) {
+    for (let x = 14; x < W; x += 22) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Bordo esterno stile "shadow-hard"
+  ctx.strokeStyle = "#1B1B1F";
+  ctx.lineWidth = 8;
+  ctx.strokeRect(4, 4, W - 8, H - 8);
+
+  // Eyebrow
+  ctx.fillStyle = "#FFC93C";
+  roundRectPath(ctx, 60, 48, 250, 38, 19);
+  ctx.fill();
+  ctx.strokeStyle = "#1B1B1F";
+  ctx.lineWidth = 2;
+  roundRectPath(ctx, 60, 48, 250, 38, 19);
+  ctx.stroke();
+  ctx.fillStyle = "#1B1B1F";
+  ctx.font = "700 14px 'Space Mono', monospace";
+  ctx.textBaseline = "middle";
+  ctx.fillText("COLLECTOR EDITION", 78, 68);
+
+  // Titolo (con leggero effetto ombra colorata, come sul sito)
+  ctx.textBaseline = "alphabetic";
+  ctx.font = "58px 'Bangers', cursive";
+  ctx.fillStyle = "#FF3D7F";
+  ctx.fillText("MY METAMUSEX/DOLLY ALBUM", 64, 168);
+  ctx.fillStyle = "#1B1B1F";
+  ctx.fillText("MY METAMUSEX/DOLLY ALBUM", 60, 164);
+
+  if (currentAddress) {
+    ctx.font = "18px 'Space Mono', monospace";
+    ctx.fillStyle = "#6b6b70";
+    ctx.fillText(shortAddress(currentAddress), 60, 196);
+  }
+
+  // Stat cards
+  const stats = [
+    { label: "ITEMS OWNED", value: String(data.totalOwnedItems) },
+    { label: "COLLECTIONS", value: `${data.groupsOwned.size}/${ALBUM_GROUPS.length}` },
+    { label: "BADGES", value: `${earned}/${totalBadges}` },
+    { label: "CHAINS", value: String(countChainsOwned(data)) },
+  ];
+  const cardW = 246, cardH = 130, gap = 22, startX = 60, startY = 226;
+  stats.forEach((s, i) => {
+    const x = startX + i * (cardW + gap);
+    ctx.fillStyle = "#FFF8F0";
+    roundRectPath(ctx, x, startY, cardW, cardH, 14);
+    ctx.fill();
+    ctx.strokeStyle = "#1B1B1F";
+    ctx.lineWidth = 3;
+    roundRectPath(ctx, x, startY, cardW, cardH, 14);
+    ctx.stroke();
+    ctx.fillStyle = "#FF3D7F";
+    ctx.font = "46px 'Bangers', cursive";
+    ctx.textAlign = "center";
+    ctx.fillText(s.value, x + cardW / 2, startY + 74);
+    ctx.fillStyle = "#6b6b70";
+    ctx.font = "700 12px 'Space Mono', monospace";
+    ctx.fillText(s.label, x + cardW / 2, startY + 104);
+    ctx.textAlign = "left";
+  });
+
+  // Pezzo più raro (se disponibile)
+  const rarest = getRarestOwnedPiece(data);
+  if (rarest) {
+    const ry = 400, rw = cardW * 4 + gap * 3, rh = 92;
+    ctx.fillStyle = "#F1ECE2";
+    roundRectPath(ctx, 60, ry, rw, rh, 14);
+    ctx.fill();
+    ctx.strokeStyle = "#1B1B1F";
+    ctx.lineWidth = 3;
+    roundRectPath(ctx, 60, ry, rw, rh, 14);
+    ctx.stroke();
+    ctx.fillStyle = "#1B1B1F";
+    ctx.font = "700 19px 'Work Sans', sans-serif";
+    ctx.fillText(`🐋 Rarest piece: ${truncateText(ctx, rarest.itemName, rw - 48)}`, 84, ry + 38);
+    ctx.font = "14px 'Space Mono', monospace";
+    ctx.fillStyle = "#6b6b70";
+    ctx.fillText(`${rarest.groupLabel} \u00b7 ${rarest.traitType}: ${rarest.value} \u00b7 only ${rarest.count} in existence`, 84, ry + 66);
+  }
+
+  // Footer hashtag
+  ctx.fillStyle = "#1B1B1F";
+  ctx.font = "700 22px 'Work Sans', sans-serif";
+  ctx.fillText(SHARE_HASHTAGS, 60, H - 40);
+
+  return canvas;
+}
+
+function truncateText(ctx, text, maxWidth) {
+  if (ctx.measureText(text).width <= maxWidth) return text;
+  let truncated = text;
+  while (truncated.length > 1 && ctx.measureText(truncated + "…").width > maxWidth) {
+    truncated = truncated.slice(0, -1);
+  }
+  return truncated + "…";
+}
+
+// Disegna testo su più righe dentro maxWidth, partendo da (x, y). Ritorna la
+// coordinata y subito dopo l'ultima riga scritta, utile per impilare altri
+// elementi sotto senza sovrapposizioni.
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 4) {
+  const words = String(text).split(" ");
+  let line = "";
+  let curY = y;
+  let linesDrawn = 0;
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + " ";
+    if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+      if (linesDrawn === maxLines - 1) {
+        ctx.fillText(truncateText(ctx, line.trim(), maxWidth), x, curY);
+        return curY + lineHeight;
+      }
+      ctx.fillText(line, x, curY);
+      line = words[n] + " ";
+      curY += lineHeight;
+      linesDrawn++;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line.trim(), x, curY);
+  return curY + lineHeight;
+}
+
+// Card condivisibile per uno (o più) badge appena sbloccati: medaglie in
+// evidenza + descrizione di cosa serve per ottenerli, stesso stile visivo
+// della card statistiche.
+function buildBadgeShareCanvas(badges) {
+  const W = 1200, H = 630;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#FFF8F0";
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = "rgba(185,178,164,0.35)";
+  for (let y = 14; y < H; y += 22) {
+    for (let x = 14; x < W; x += 22) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  ctx.strokeStyle = "#1B1B1F";
+  ctx.lineWidth = 8;
+  ctx.strokeRect(4, 4, W - 8, H - 8);
+
+  // Eyebrow
+  ctx.fillStyle = "#FFC93C";
+  roundRectPath(ctx, 60, 46, 250, 38, 19);
+  ctx.fill();
+  ctx.strokeStyle = "#1B1B1F";
+  ctx.lineWidth = 2;
+  roundRectPath(ctx, 60, 46, 250, 38, 19);
+  ctx.stroke();
+  ctx.fillStyle = "#1B1B1F";
+  ctx.font = "700 14px 'Space Mono', monospace";
+  ctx.textBaseline = "middle";
+  ctx.fillText("COLLECTOR EDITION", 78, 66);
+  ctx.textBaseline = "alphabetic";
+
+  // Titolo
+  const title = badges.length === 1 ? "NEW BADGE UNLOCKED!" : `${badges.length} NEW BADGES UNLOCKED!`;
+  ctx.font = "58px 'Bangers', cursive";
+  ctx.fillStyle = "#FF3D7F";
+  ctx.fillText(title, 64, 158);
+  ctx.fillStyle = "#1B1B1F";
+  ctx.fillText(title, 60, 154);
+
+  if (currentAddress) {
+    ctx.font = "18px 'Space Mono', monospace";
+    ctx.fillStyle = "#6b6b70";
+    ctx.fillText(shortAddress(currentAddress), 60, 186);
+  }
+
+  // Medaglie (fino a 4, centrate)
+  const shown = badges.slice(0, 4);
+  const medalSize = 120;
+  const gap = 40;
+  const totalW = shown.length * medalSize + (shown.length - 1) * gap;
+  let startX = (W - totalW) / 2;
+  const medalY = 224;
+  ctx.textAlign = "center";
+  shown.forEach((b) => {
+    const cx = startX + medalSize / 2;
+    const cy = medalY + medalSize / 2;
+    ctx.fillStyle = isPrestigeBadge(b.label) ? "#8B5CF6" : "#2E6DF2";
+    ctx.beginPath();
+    ctx.arc(cx, cy, medalSize / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#1B1B1F";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(cx, cy, medalSize / 2, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.textBaseline = "middle";
+    ctx.font = "52px sans-serif";
+    ctx.fillStyle = "#fff";
+    ctx.fillText(b.icon, cx, cy + 4);
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "700 13px 'Work Sans', sans-serif";
+    ctx.fillStyle = "#1B1B1F";
+    ctx.fillText(truncateText(ctx, b.name || b.label, medalSize + 30), cx, medalY + medalSize + 26);
+    startX += medalSize + gap;
+  });
+  ctx.textAlign = "left";
+
+  // Descrizione: testo completo se è un solo badge, elenco sintetico se sono più badge
+  const descY = medalY + medalSize + 66;
+  const panelW = W - 120;
+  const panelH = badges.length === 1 ? 108 : Math.min(64 + shown.length * 28, 176);
+  ctx.fillStyle = "#F1ECE2";
+  roundRectPath(ctx, 60, descY, panelW, panelH, 14);
+  ctx.fill();
+  ctx.strokeStyle = "#1B1B1F";
+  ctx.lineWidth = 3;
+  roundRectPath(ctx, 60, descY, panelW, panelH, 14);
+  ctx.stroke();
+
+  ctx.fillStyle = "#1B1B1F";
+  if (badges.length === 1 && badges[0].desc) {
+    ctx.font = "18px 'Work Sans', sans-serif";
+    wrapText(ctx, badges[0].desc, 84, descY + 34, panelW - 48, 26, 3);
+  } else {
+    ctx.font = "600 16px 'Work Sans', sans-serif";
+    let ly = descY + 30;
+    shown.forEach((b) => {
+      ctx.fillText(truncateText(ctx, `${b.icon} ${b.label}`, panelW - 48), 84, ly);
+      ly += 28;
+    });
+    if (badges.length > shown.length) {
+      ctx.font = "14px 'Space Mono', monospace";
+      ctx.fillStyle = "#6b6b70";
+      ctx.fillText(`+ ${badges.length - shown.length} more`, 84, ly);
+    }
+  }
+
+  // Footer hashtag
+  ctx.fillStyle = "#1B1B1F";
+  ctx.font = "700 22px 'Work Sans', sans-serif";
+  ctx.fillText(SHARE_HASHTAGS, 60, H - 30);
+
+  return canvas;
+}
+
+function downloadCanvasAsPng(canvas, filename) {
+  const url = canvas.toDataURL("image/png");
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 
 function shareStatsOnX(data) {
   const allBadges = getAllBadgesFlat(data);
   const earned = allBadges.filter((b) => b.earned).length;
   const text = `My MetaMuseX/Dolly Collector Album: ${data.totalOwnedItems} NFTs across ${data.groupsOwned.size}/${ALBUM_GROUPS.length} collections, ${earned}/${allBadges.length} badges unlocked! ${SHARE_HASHTAGS}`;
+  try {
+    const canvas = buildStatsShareCanvas(data, earned, allBadges.length);
+    downloadCanvasAsPng(canvas, "metamusex-stats.png");
+  } catch (err) {
+    console.warn("Could not generate stats share image:", err);
+  }
   shareOnX(text);
 }
 
-const LEADERBOARD_STORAGE_PREFIX = "leaderboard-user:";
+// ==========================================================
+// LEADERBOARD — dati salvati su Google Sheets tramite un Web App di
+// Google Apps Script (vedi apps-script.gs). Ogni volta che un utente
+// connette il wallet, inviamo (upsert) le sue statistiche già calcolate
+// lato client: la pagina leaderboard poi si limita a leggere lo sheet,
+// senza dover ri-interrogare OpenSea per ogni wallet registrato.
+// ==========================================================
 
-async function registerLeaderboardUser(address) {
+async function submitLeaderboardStats(address, data) {
+  if (!LEADERBOARD_API_URL) return;
   try {
-    if (!window.storage) return;
-    await window.storage.set(`${LEADERBOARD_STORAGE_PREFIX}${address.toLowerCase()}`, JSON.stringify({ lastSeen: Date.now() }), true);
+    const profile = getStoredProfile(address);
+    const payload = {
+      address: address.toLowerCase(),
+      totalItems: data.totalOwnedItems,
+      collectionsOwned: data.groupsOwned.size,
+      collectionsCompleted: ALBUM_GROUPS.filter((g) => isGroupCompleted(data, g)).length,
+      albumPct: albumCompletionPct(data),
+      totalBadges: countAllBadgesEarned(data),
+      lastSeen: Date.now(),
+      // Nome utente e avatar scelti nella pagina Collector Profile (locali al
+      // browser finché non vengono inviati qui): li mandiamo insieme alle
+      // statistiche così la Leaderboard può mostrarli senza dover leggere
+      // localStorage di altri utenti (impossibile) o richiedere un login.
+      username: profile.username || "",
+      avatarEmoji: profile.avatarImage ? "" : (profile.avatarEmoji || "🧑"),
+      avatarImageUrl: profile.avatarImage ? profile.avatarImage.url : "",
+    };
+    // Niente header Content-Type esplicito: evita la preflight CORS (OPTIONS)
+    // che Apps Script non gestisce bene di default. Lo script legge comunque
+    // il body come JSON lato server.
+    await fetch(LEADERBOARD_API_URL, { method: "POST", body: JSON.stringify(payload) });
   } catch (err) {
-    console.warn("Could not register wallet for leaderboard (storage unavailable):", err);
+    console.warn("Could not submit leaderboard stats:", err);
   }
 }
 
-async function getRegisteredLeaderboardAddresses() {
+async function fetchLeaderboardEntries() {
+  if (!LEADERBOARD_API_URL) return null;
   try {
-    if (!window.storage) return [];
-    const result = await window.storage.list(LEADERBOARD_STORAGE_PREFIX, true);
-    if (!result || !result.keys) return [];
-    return result.keys.map((k) => k.slice(LEADERBOARD_STORAGE_PREFIX.length));
+    const res = await fetch(LEADERBOARD_API_URL, { method: "GET" });
+    if (!res.ok) return null;
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return null;
+    return rows.map((r) => ({
+      address: String(r.address || "").toLowerCase(),
+      totalItems: Number(r.totalItems) || 0,
+      collectionsOwned: Number(r.collectionsOwned) || 0,
+      collectionsCompleted: Number(r.collectionsCompleted) || 0,
+      albumPct: Number(r.albumPct) || 0,
+      totalBadges: Number(r.totalBadges) || 0,
+      username: typeof r.username === "string" ? r.username.trim().slice(0, 24) : "",
+      avatarEmoji: typeof r.avatarEmoji === "string" ? r.avatarEmoji : "",
+      avatarImageUrl: typeof r.avatarImageUrl === "string" ? r.avatarImageUrl : "",
+    }));
   } catch (err) {
-    console.warn("Could not read registered leaderboard users:", err);
-    return [];
+    console.warn("Could not load leaderboard entries:", err);
+    return null;
   }
 }
 
 async function fetchOpenSeaJson(url, retries = 3, baseDelayMs = 700) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const res = await fetch(url, { headers: { accept: "application/json", "x-api-key": OPENSEA_API_KEY } });
+      const res = await fetch(url, { headers: { accept: "application/json" } });
       if (res.status === 429 && attempt < retries) {
         const retryAfter = Number(res.headers.get("retry-after"));
         const delay = retryAfter > 0 ? retryAfter * 1000 : baseDelayMs * Math.pow(2, attempt);
@@ -525,14 +1411,72 @@ async function fetchOpenSeaJson(url, retries = 3, baseDelayMs = 700) {
 }
 
 async function fetchOwnedNFTs(address, chain, slug) {
-  const url = `https://api.opensea.io/api/v2/chain/${chain}/account/${address}/nfts?collection=${slug}&limit=200`;
+  const url = `${OPENSEA_PROXY_BASE}/api/v2/chain/${chain}/account/${address}/nfts?collection=${slug}&limit=200`;
   const { ok, status, data } = await fetchOpenSeaJson(url);
   if (!ok) { console.warn(`OpenSea API error for ${slug}:`, status); return []; }
   return data.nfts || [];
 }
 
+// Recupera (fino a qualche pagina) TUTTI gli NFT posseduti da un wallet su
+// una chain, senza filtrare per collezione — usato solo per verificare il
+// possesso dei pezzi "segreti" premio del gioco Discord (identificati per
+// indirizzo di contratto, non per slug di collezione).
+async function fetchOwnedNFTsAllCollections(address, chain, maxPages = 3) {
+  let all = [], next;
+  for (let page = 0; page < maxPages; page++) {
+    const url = `${OPENSEA_PROXY_BASE}/api/v2/chain/${chain}/account/${address}/nfts?limit=200${next ? `&next=${encodeURIComponent(next)}` : ""}`;
+    const { ok, status, data } = await fetchOpenSeaJson(url);
+    if (!ok) { console.warn(`OpenSea API error fetching all NFTs on ${chain}:`, status); break; }
+    all = all.concat(data.nfts || []);
+    next = data.next;
+    if (!next) break;
+  }
+  return all;
+}
+
+async function fetchSecretItemOwnership(address) {
+  try {
+    const items = await fetchOwnedNFTsAllCollections(address, SECRET_ITEMS_CHAIN, 3);
+    const owned = new Set();
+    items.forEach((item) => {
+      if (item.contract && item.contract.toLowerCase() === SECRET_ITEMS_CONTRACT.toLowerCase() && item.identifier != null) {
+        owned.add(String(item.identifier));
+      }
+    });
+    return owned;
+  } catch (err) {
+    console.warn("Could not check secret item ownership:", err);
+    return new Set();
+  }
+}
+
+// Cache dei nomi ufficiali completi delle collezioni (es. "MetaMuseX - Girl
+// PFP (official/certified)" invece della semplice label breve "Girls" usata
+// nell'album). Recuperati una sola volta da OpenSea e riusati ovunque serva
+// mostrare il nome per esteso.
+const collectionFullNameCache = {};
+
+async function fetchCollectionFullName(slug) {
+  if (collectionFullNameCache[slug]) return collectionFullNameCache[slug];
+  try {
+    const url = `${OPENSEA_PROXY_BASE}/api/v2/collections/${slug}`;
+    const { ok, data } = await fetchOpenSeaJson(url);
+    const name = ok && data && data.name ? data.name : null;
+    collectionFullNameCache[slug] = name;
+    return name;
+  } catch (err) {
+    console.warn(`Could not fetch full collection name for ${slug}:`, err);
+    return null;
+  }
+}
+
+function getGroupFullName(group) {
+  if (!group) return "";
+  return collectionFullNameCache[group.slug] || group.label;
+}
+
 async function fetchCollectionTraits(slug) {
-  const url = `https://api.opensea.io/api/v2/traits/${slug}`;
+  const url = `${OPENSEA_PROXY_BASE}/api/v2/traits/${slug}`;
   const { ok, status, data } = await fetchOpenSeaJson(url);
   if (!ok) { console.warn(`Traits API error for ${slug}:`, status); return null; }
   return data;
@@ -561,48 +1505,277 @@ async function loadAlbum(address) {
     traitsMeta[group.key] = traitsData;
   });
 
+  const secretOwnedIds = await fetchSecretItemOwnership(address);
+  const visitDays = recordVisitDay(address);
+
+  // Nomi ufficiali completi delle collezioni (in parallelo tra loro), usati
+  // ad esempio nella classifica dei pezzi più rari nella pagina Stats.
+  await Promise.all(ALBUM_GROUPS.map((g) => fetchCollectionFullName(g.slug)));
+
   const badgeData = buildBadgeData(byGroup, traitsMeta);
+  badgeData.secretOwnedIds = secretOwnedIds;
+  badgeData.visitDays = visitDays;
   lastTraitsMeta = traitsMeta;
   lastBadgeData = badgeData;
 
   renderAlbumGrid(byGroup);
   renderGroupPages(byGroup, traitsMeta, badgeData);
-  renderProgress(byGroup);
+  renderProgress(badgeData);
+  renderLoyalty(visitDays);
   renderBadges(badgeData);
   loadSeriesImages(byGroup);
   loadSpecialFullCollections(byGroup);
 
-  const isFounder = FOUNDER_ADDRESS && address.toLowerCase() === FOUNDER_ADDRESS.toLowerCase();
-  leaderboardBtn.style.display = isFounder ? "inline-block" : "none";
+  // Invia le statistiche aggiornate alla leaderboard condivisa (Google Sheets).
+  submitLeaderboardStats(address, badgeData);
 
-  await checkNewlyEarnedBadges(address, badgeData);
+  const newlyEarned = await checkNewlyEarnedBadges(address, badgeData);
+  if (!newlyEarned || newlyEarned.length === 0) {
+    checkRankLevelUp(address, albumCompletionPct(badgeData));
+  }
 }
 
-const EARNED_BADGES_STORAGE_PREFIX = "earned-badges:";
+// Il tracking di "quali badge avevo già la scorsa visita" (usato solo per
+// mostrare il popup "nuovo badge sbloccato") è dato personale e locale al
+// browser dell'utente: usiamo localStorage, non lo sheet condiviso.
+// ==========================================================
+// PROFILO PERSONALE — nome utente e avatar (emoji, una delle proprie NFT,
+// o un'immagine caricata dall'utente). Tutto locale al browser, come lo
+// streak e i badge: non c'è un backend che lo persista o lo mostri ad
+// altri utenti.
+// ==========================================================
+const PROFILE_STORAGE_PREFIX = "metamusex-profile:";
+const AVATAR_EMOJI_CHOICES = ["🧑", "👩", "🧔", "👑", "🎨", "🦄", "🐋", "🌟", "🔥", "🐄", "🎭", "🦋"];
+
+function getStoredProfile(address) {
+  const fallback = { username: "", avatarEmoji: "🧑", avatarImage: null };
+  try {
+    const raw = localStorage.getItem(`${PROFILE_STORAGE_PREFIX}${address.toLowerCase()}`);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return {
+      username: typeof parsed.username === "string" ? parsed.username.slice(0, 24) : "",
+      avatarEmoji: typeof parsed.avatarEmoji === "string" ? parsed.avatarEmoji : "🧑",
+      avatarImage: parsed.avatarImage && parsed.avatarImage.url ? parsed.avatarImage : null,
+    };
+  } catch (err) {
+    return fallback;
+  }
+}
+
+function saveStoredProfile(address, profile) {
+  try {
+    localStorage.setItem(`${PROFILE_STORAGE_PREFIX}${address.toLowerCase()}`, JSON.stringify(profile));
+  } catch (err) {
+    console.warn("Could not save profile:", err);
+  }
+}
+
+// Ridimensiona/comprime un file immagine caricato dall'utente in un
+// quadrato piccolo (crop centrale) prima di salvarlo come data URL in
+// localStorage — altrimenti una foto originale potrebbe pesare diversi MB
+// e riempire lo storage locale disponibile.
+function resizeImageFileToDataUrl(file, maxSize = 200, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type || !file.type.startsWith("image/")) { reject(new Error("Not an image file")); return; }
+    if (file.size > 8 * 1024 * 1024) { reject(new Error("Image is too large (max 8MB)")); return; }
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Could not read file"));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Could not load image"));
+      img.onload = () => {
+        const side = Math.min(img.width, img.height);
+        const sx = (img.width - side) / 2;
+        const sy = (img.height - side) / 2;
+        const canvas = document.createElement("canvas");
+        canvas.width = maxSize;
+        canvas.height = maxSize;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, sx, sy, side, side, 0, 0, maxSize, maxSize);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function buildAvatarPickerNftHtml() {
+  if (!lastBadgeData) return "";
+  const allOwned = [];
+  Object.values(lastBadgeData.byGroup).forEach((items) => {
+    items.forEach((item) => { if (getItemImage(item)) allOwned.push(item); });
+  });
+  if (allOwned.length === 0) return "";
+  const cards = allOwned.slice(0, 40).map((item) => {
+    const img = escapeHtml(getItemImage(item));
+    const name = escapeHtml(getItemName(item));
+    return `<button type="button" class="avatar-nft-choice" data-image="${img}" title="${name}"><img src="${img}" alt="${name}" /></button>`;
+  }).join("");
+  return `<div class="avatar-picker-label">Or use one of your NFTs</div><div class="avatar-nft-grid">${cards}</div>`;
+}
+
+function applyAvatarChoice(profile) {
+  saveStoredProfile(currentAddress, profile);
+  hideAvatarPicker();
+  showStatsPage();
+}
+
+function showAvatarPicker() {
+  document.getElementById("avatarEmojiGrid").innerHTML = AVATAR_EMOJI_CHOICES
+    .map((e) => `<button type="button" class="avatar-emoji-choice" data-emoji="${e}">${e}</button>`)
+    .join("");
+  document.getElementById("avatarNftSection").innerHTML = buildAvatarPickerNftHtml();
+  document.getElementById("avatarPickerOverlay").style.display = "flex";
+
+  document.querySelectorAll(".avatar-emoji-choice").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const profile = getStoredProfile(currentAddress);
+      profile.avatarEmoji = btn.dataset.emoji;
+      profile.avatarImage = null;
+      applyAvatarChoice(profile);
+    });
+  });
+  document.querySelectorAll(".avatar-nft-choice").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const profile = getStoredProfile(currentAddress);
+      profile.avatarImage = { url: btn.dataset.image };
+      applyAvatarChoice(profile);
+    });
+  });
+}
+
+function hideAvatarPicker() {
+  document.getElementById("avatarPickerOverlay").style.display = "none";
+}
+
+// Tracking (locale al browser) degli item airdrop già visti, usato solo per
+// far apparire il popup "Nuovo airdrop ricevuto!" quando compare un pezzo
+// che non c'era all'ultima visita alla pagina Airdrop.
+const AIRDROP_OWNED_STORAGE_PREFIX = "metamusex-airdrop-owned:";
+
+function checkNewAirdropItems(address, ownedItemsList) {
+  try {
+    const key = `${AIRDROP_OWNED_STORAGE_PREFIX}${address.toLowerCase()}`;
+    const nowIds = ownedItemsList.map((item) => `${item.collection || ""}:${item.identifier}`);
+    let previousIds = null;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) previousIds = JSON.parse(raw);
+    } catch (err) { previousIds = null; }
+    localStorage.setItem(key, JSON.stringify(nowIds));
+    if (previousIds === null) return [];
+    const previousSet = new Set(previousIds);
+    return ownedItemsList.filter((item) => !previousSet.has(`${item.collection || ""}:${item.identifier}`));
+  } catch (err) {
+    console.warn("Could not check for new airdrop items:", err);
+    return [];
+  }
+}
+
+function showAirdropDropPopup(items) {
+  const list = document.getElementById("airdropDropList");
+  list.innerHTML = items.map((item) => {
+    const thumb = itemThumbHtml(item, "🎁");
+    return `<div class="owned-item-card">${thumb}<div class="item-name">${escapeHtml(getItemName(item))}</div></div>`;
+  }).join("");
+  document.getElementById("airdropDropOverlay").style.display = "flex";
+  fireConfetti();
+}
+
+function hideAirdropDropPopup() {
+  document.getElementById("airdropDropOverlay").style.display = "none";
+}
+
+const EARNED_BADGES_STORAGE_PREFIX = "metamusex-earned-badges:";
+// Tracking dei giorni di visita distinti (streak/engagement), anch'esso
+// locale al browser — non è dato di possesso, quindi non va sullo sheet
+// condiviso della leaderboard.
+const VISIT_DAYS_STORAGE_PREFIX = "metamusex-visit-days:";
+// Ultimo Collector Rank visto, usato solo per rilevare un "level up"
+// rispetto alla visita precedente.
+const RANK_LEVEL_STORAGE_PREFIX = "metamusex-rank-level:";
+
+function recordVisitDay(address) {
+  try {
+    const key = `${VISIT_DAYS_STORAGE_PREFIX}${address.toLowerCase()}`;
+    const today = new Date().toISOString().slice(0, 10);
+    let days = [];
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) days = JSON.parse(raw);
+    } catch (err) { days = []; }
+    if (!Array.isArray(days)) days = [];
+    if (!days.includes(today)) days.push(today);
+    localStorage.setItem(key, JSON.stringify(days));
+    return days.length;
+  } catch (err) {
+    console.warn("Could not record visit day:", err);
+    return 1;
+  }
+}
+
+function renderLoyalty(visitDays) {
+  if (!loyaltyChip) return;
+  const tier = getLoyaltyTier(visitDays);
+  loyaltyChip.innerHTML = `<div class="loyalty-chip">${tier.icon} ${tier.label} &middot; visited ${visitDays} day${visitDays === 1 ? "" : "s"}</div>`;
+}
+
+function checkRankLevelUp(address, overallPct) {
+  try {
+    const key = `${RANK_LEVEL_STORAGE_PREFIX}${address.toLowerCase()}`;
+    const newRank = getCollectorRank(overallPct);
+    const newIndex = COLLECTOR_RANKS.indexOf(newRank);
+    let prevIndex = null;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw !== null) prevIndex = Number(raw);
+    } catch (err) { prevIndex = null; }
+    localStorage.setItem(key, String(newIndex));
+    if (prevIndex !== null && !Number.isNaN(prevIndex) && newIndex > prevIndex) {
+      showLevelUpPopup(newRank, newIndex);
+    }
+  } catch (err) {
+    console.warn("Could not check rank level up:", err);
+  }
+}
+
+function showLevelUpPopup(rank, index) {
+  document.getElementById("levelUpRankTitle").textContent = rank.title;
+  document.getElementById("levelUpRankIcon").textContent = COLLECTOR_RANK_ICONS[index] || "🎉";
+  document.getElementById("levelUpOverlay").style.display = "flex";
+  fireConfetti();
+}
+
+function hideLevelUpPopup() {
+  document.getElementById("levelUpOverlay").style.display = "none";
+}
 
 async function checkNewlyEarnedBadges(address, badgeData) {
   try {
-    if (!window.storage) return;
     const key = `${EARNED_BADGES_STORAGE_PREFIX}${address.toLowerCase()}`;
     const earnedNowLabels = getAllBadgesFlat(badgeData).filter((b) => b.earned).map((b) => b.label);
 
     let previousLabels = null;
     try {
-      const res = await window.storage.get(key);
-      if (res && res.value) previousLabels = JSON.parse(res.value);
+      const raw = localStorage.getItem(key);
+      if (raw) previousLabels = JSON.parse(raw);
     } catch (err) {
       previousLabels = null;
     }
 
-    await window.storage.set(key, JSON.stringify(earnedNowLabels));
-    if (previousLabels === null) return;
+    localStorage.setItem(key, JSON.stringify(earnedNowLabels));
+    if (previousLabels === null) return [];
 
     const previousSet = new Set(previousLabels);
     const allBadgesNow = getAllBadgesFlat(badgeData);
     const newlyEarned = allBadgesNow.filter((b) => b.earned && !previousSet.has(b.label));
     if (newlyEarned.length > 0) showBadgeUnlockPopup(newlyEarned);
+    return newlyEarned;
   } catch (err) {
     console.warn("Could not check for newly earned badges:", err);
+    return [];
   }
 }
 
@@ -611,7 +1784,18 @@ function showBadgeUnlockPopup(newBadges) {
   const overlay = document.getElementById("badgeUnlockOverlay");
   const list = document.getElementById("badgeUnlockList");
   list.innerHTML = newBadges.map((b) => badgeHtml(b.icon, b.label, true, isPrestigeBadge(b.label))).join("");
+  const descEl = document.getElementById("badgeUnlockDesc");
+  if (descEl) {
+    if (newBadges.length === 1 && newBadges[0].desc) {
+      descEl.textContent = newBadges[0].desc;
+      descEl.style.display = "block";
+    } else {
+      descEl.textContent = "";
+      descEl.style.display = "none";
+    }
+  }
   overlay.style.display = "flex";
+  fireConfetti();
 }
 
 function hideBadgeUnlockPopup() {
@@ -739,6 +1923,14 @@ function ownableItemCardHtml(chain, icon, item, owned) {
     : `<div class="airdrop-item-card locked">${inner}</div>`;
 }
 
+// Apre di default il primo blocco trait/serie di un contenitore, così
+// l'utente vede subito che c'è contenuto invece di trovare tutto chiuso.
+function openFirstTraitBlock(container) {
+  if (!container) return;
+  const first = container.querySelector(".trait-block");
+  if (first) first.classList.add("expanded");
+}
+
 function getSeriesForItem(groupKey, item) {
   const map = SPECIAL_SERIES[groupKey];
   if (!map) return null;
@@ -757,9 +1949,18 @@ function renderGroupPages(byGroup, traitsMeta, badgeData) {
     const items = byGroup[group.key] || [];
     if (items.length === 0) return;
 
+    const relaxConfig = RELAX_COLLECTIONS[group.key];
+    if (relaxConfig) {
+      RELAX_ITEMS_BY_ID[group.key] = RELAX_ITEMS_BY_ID[group.key] || {};
+      items.forEach((item) => { if (item.identifier != null) RELAX_ITEMS_BY_ID[group.key][String(item.identifier)] = item; });
+    }
+
     const itemsHtml = items.map((item) => {
       const thumb = itemThumbHtml(item, group.icon);
-      return `<div class="owned-item-card">${thumb}<div class="item-name">${escapeHtml(getItemName(item))}</div></div>`;
+      const relaxHtml = (relaxConfig && relaxConfig.enabled)
+        ? `<div class="relax-widget-container" id="relax-widget-${group.key}-${item.identifier}">${relaxWidgetHtml(group.key, item.identifier)}</div>`
+        : "";
+      return `<div class="owned-item-card">${thumb}<div class="item-name">${escapeHtml(getItemName(item))}</div>${relaxHtml}</div>`;
     }).join("");
 
     let curatedHtml = "";
@@ -789,7 +1990,7 @@ function renderGroupPages(byGroup, traitsMeta, badgeData) {
         const ownedCount = tp.values.filter((v) => owned.has(normTraitValue(v))).length;
         const pct = total > 0 ? Math.round((ownedCount / total) * 100) : 0;
         const chips = tp.values.map((v) => traitChipHtml(group.slug, tp.trait_type, v, owned.has(normTraitValue(v)))).join("");
-        return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${tp.title}</span><span class="trait-block-pct mono">${ownedCount}/${total} &middot; ${pct}%</span></div><div class="trait-progress-bar"><div class="trait-progress-fill" style="width:${pct}%"></div></div><div class="trait-list">${chips}</div></div>`;
+        return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${tp.title}</span><span class="trait-block-pct mono">${ownedCount}/${total} &middot; ${pct}% <span class="trait-block-chevron">▾</span></span></div><div class="trait-progress-bar"><div class="trait-progress-fill" style="width:${pct}%"></div></div><div class="trait-block-content"><div class="trait-list">${chips}</div></div></div>`;
       }).join("");
 
       const normMeta = getNormalizedTraitsMeta(traitsMeta && traitsMeta[group.key]);
@@ -808,12 +2009,12 @@ function renderGroupPages(byGroup, traitsMeta, badgeData) {
           const ownedCount = allValues.filter((v) => owned.has(v)).length;
           const pct = total > 0 ? Math.round((ownedCount / total) * 100) : 0;
           const chips = allValues.map((v) => traitChipHtml(group.slug, traitType, v, owned.has(v))).join("");
-          return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${traitType}</span><span class="trait-block-pct mono">${ownedCount}/${total} &middot; ${pct}%</span></div><div class="trait-progress-bar"><div class="trait-progress-fill" style="width:${pct}%"></div></div><div class="trait-list">${chips}</div></div>`;
+          return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${traitType}</span><span class="trait-block-pct mono">${ownedCount}/${total} &middot; ${pct}% <span class="trait-block-chevron">▾</span></span></div><div class="trait-progress-bar"><div class="trait-progress-fill" style="width:${pct}%"></div></div><div class="trait-block-content"><div class="trait-list">${chips}</div></div></div>`;
         }
         missingTraitsNote = true;
         const values = Array.from(owned).sort();
         const chips = values.map((v) => `<div class="trait-chip">✅ ${v}</div>`).join("");
-        return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${traitType}</span><span class="trait-block-pct mono">${values.length} owned value${values.length === 1 ? "" : "s"}</span></div><div class="trait-list">${chips}</div></div>`;
+        return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${traitType}</span><span class="trait-block-pct mono">${values.length} owned value${values.length === 1 ? "" : "s"} <span class="trait-block-chevron">▾</span></span></div><div class="trait-block-content"><div class="trait-list">${chips}</div></div></div>`;
       }).join("");
 
       if (traitBlocks) {
@@ -840,8 +2041,10 @@ function renderGroupPages(byGroup, traitsMeta, badgeData) {
       ${buildRareTraitsTableHtml(group, badgeData)}
       ${buildGroupBadgesHtml(group, badgeData)}
       ${group.special && !SPECIAL_SERIES[group.key] ? `<div class="section-title" style="margin-top:32px;">Browse &amp; Buy Missing Pieces <div class="bar"></div></div><div class="airdrop-grid" id="special-full-${group.key}"><div class="mono">Loading full collection...</div></div>` : ""}
+      <span class="back-link bottom" data-back="${group.key}">&larr; Back to album</span>
     `;
     traitViewsEl.appendChild(page);
+    openFirstTraitBlock(page);
   });
 
   traitViewsEl.querySelectorAll("[data-back]").forEach((el) => el.addEventListener("click", hideTraitPages));
@@ -864,9 +2067,10 @@ async function loadSeriesImages(byGroup) {
       const ownedCount = seriesItems.filter((i) => ownedIds.has(String(i.identifier))).length;
       const cards = seriesItems.map((item) => ownableItemCardHtml(group.chain, group.icon, item, ownedIds.has(String(item.identifier)))).join("");
       const desc = SERIES_DESCRIPTIONS[series];
-      return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${series}${desc ? ` <span class="mono" style="font-weight:400; color:#6b6b70;">(${desc})</span>` : ""}</span><span class="trait-block-pct mono">${ownedCount}/${seriesItems.length} owned</span></div><div class="airdrop-grid">${cards}</div></div>`;
+      return `<div class="trait-block"><div class="trait-block-header"><span class="trait-block-title">${series}${desc ? ` <span class="mono" style="font-weight:400; color:#6b6b70;">(${desc})</span>` : ""}</span><span class="trait-block-pct mono">${ownedCount}/${seriesItems.length} owned <span class="trait-block-chevron">▾</span></span></div><div class="trait-block-content"><div class="airdrop-grid">${cards}</div></div></div>`;
     }).join("");
     container.innerHTML = html;
+    openFirstTraitBlock(container);
   }));
 }
 
@@ -895,13 +2099,24 @@ function hideTraitPages() {
   document.querySelectorAll(".trait-page").forEach((p) => p.classList.remove("active"));
 }
 
-function renderProgress(byGroup) {
+function renderProgress(data) {
   const total = ALBUM_GROUPS.length;
-  const owned = ALBUM_GROUPS.filter((g) => (byGroup[g.key] || []).length > 0).length;
-  const pct = Math.round((owned / total) * 100);
+  let sum = 0;
   ticketStrip.innerHTML = "";
-  for (let i = 0; i < total; i++) { const t = document.createElement("div"); t.className = "ticket" + (i < owned ? " filled" : ""); ticketStrip.appendChild(t); }
-  progressPercent.textContent = pct + "%";
+  ALBUM_GROUPS.forEach((group) => {
+    const pct = groupCompletionPct(data, group);
+    sum += pct;
+    const t = document.createElement("div");
+    t.className = "ticket" + (pct >= 100 ? " filled" : "");
+    if (pct > 0 && pct < 100) {
+      t.style.background = `linear-gradient(90deg, var(--pink) ${pct}%, transparent ${pct}%), repeating-linear-gradient(90deg, var(--grey), var(--grey) 6px, transparent 6px, transparent 9px)`;
+    }
+    t.title = `${group.label}: ${pct}%`;
+    ticketStrip.appendChild(t);
+  });
+  const overallPct = total > 0 ? Math.round(sum / total) : 0;
+  progressPercent.textContent = overallPct + "%";
+  if (collectorRankTitle) collectorRankTitle.textContent = getCollectorRank(overallPct).title;
 }
 
 function countChainsOwned(data) {
@@ -990,9 +2205,29 @@ function isGroupCompleted(data, group) {
   return isCollectionFullyMaxed(data, group.key);
 }
 
+// Quanto è "completa" una singola collezione, in percentuale (0-100). Per le
+// collezioni con trait, si basa su quanti valori di trait possiedi rispetto
+// al totale esistente — non solo "ne possiedo almeno uno". Per le collezioni
+// speciali (senza trait) e per quelle senza dati trait disponibili, si usa
+// un proxy più semplice basato sui pezzi posseduti. Questa funzione non
+// dipende in alcun modo dal numero di badge esistenti: puoi aggiungerne o
+// toglierne quanti vuoi in futuro senza che questo calcolo cambi.
+function groupCompletionPct(data, group) {
+  const items = data.byGroup[group.key] || [];
+  if (group.special) return Math.min(100, Math.round((items.length / (group.completionThreshold || SPECIAL_MASTER_MIN)) * 100));
+  if (group.traitsUnavailable) {
+    const threshold = group.completionThreshold || 1;
+    return Math.min(100, Math.round((items.length / threshold) * 100));
+  }
+  const stats = groupTraitStats(data, group.key);
+  if (stats) return stats.pct;
+  return items.length > 0 ? 100 : 0;
+}
+
 function albumCompletionPct(data) {
   if (ALBUM_GROUPS.length === 0) return 0;
-  return Math.round((data.groupsOwned.size / ALBUM_GROUPS.length) * 100);
+  const sum = ALBUM_GROUPS.reduce((acc, group) => acc + groupCompletionPct(data, group), 0);
+  return Math.round(sum / ALBUM_GROUPS.length);
 }
 
 function getSeriesBadges(group, data) {
@@ -1100,6 +2335,29 @@ function groupBadgeStats(data, group) {
   return { earned: badges.filter((b) => b.earned).length, total: badges.length };
 }
 
+// Conta quanti NFT DISTINTI possiede l'utente che hanno almeno un trait
+// ultra-raro (posseduto da pochissimi esemplari in tutta la collezione).
+// Diverso da countUltraRareTraitsOwned: quello conta i TRAIT rari (un NFT
+// con 2 trait rari conta 2), questo conta i PEZZI rari (lo stesso NFT con
+// 2 trait rari conta comunque 1 solo pezzo). Usato dal badge "Rare Collector".
+function countRarePiecesOwned(data, maxCount = RARE_TRAIT_MAX_COUNT) {
+  let count = 0;
+  Object.entries(data.byGroup).forEach(([groupKey, items]) => {
+    const normMeta = getNormalizedTraitsMeta(data.traitsMeta && data.traitsMeta[groupKey]);
+    if (!normMeta) return;
+    items.forEach((item) => {
+      const hasRareTrait = (item.traits || []).some((t) => {
+        const normType = normTraitType(t.trait_type);
+        const countsForType = normMeta.counts[normType];
+        const c = countsForType && buildNormalizedCounts(countsForType)[normTraitValue(t.value)];
+        return c && typeof c.count === "number" && c.count <= maxCount;
+      });
+      if (hasRareTrait) count++;
+    });
+  });
+  return count;
+}
+
 function getRarestOwnedPiece(data) {
   let best = null;
   Object.entries(data.byGroup).forEach(([groupKey, items]) => {
@@ -1120,38 +2378,169 @@ function getRarestOwnedPiece(data) {
   return best;
 }
 
+// Come getRarestOwnedPiece, ma restituisce una CLASSIFICA delle N NFT
+// possedute più rare (pezzi distinti, non singoli trait): per ogni NFT
+// posseduta si prende il suo trait più raro come "punteggio di rarità"
+// rappresentativo, poi si ordina crescente per numero di detentori.
+function getTopRarestOwnedPieces(data, limit = 5) {
+  const pieces = [];
+  Object.entries(data.byGroup).forEach(([groupKey, items]) => {
+    const normMeta = getNormalizedTraitsMeta(data.traitsMeta && data.traitsMeta[groupKey]);
+    if (!normMeta) return;
+    const group = ALBUM_GROUPS.find((g) => g.key === groupKey);
+    items.forEach((item) => {
+      let best = null;
+      (item.traits || []).forEach((t) => {
+        const normType = normTraitType(t.trait_type);
+        const countsForType = normMeta.counts[normType];
+        const c = countsForType && buildNormalizedCounts(countsForType)[normTraitValue(t.value)];
+        if (c && typeof c.count === "number" && (!best || c.count < best.count)) {
+          best = { count: c.count, traitType: normType, value: normTraitValue(t.value) };
+        }
+      });
+      if (best) {
+        pieces.push({
+          count: best.count,
+          traitType: best.traitType,
+          value: best.value,
+          groupLabel: getGroupFullName(group),
+          groupKey,
+          itemName: getItemName(item),
+          item,
+        });
+      }
+    });
+  });
+  pieces.sort((a, b) => a.count - b.count);
+  return pieces.slice(0, limit);
+}
+
+// ==========================================================
+// SUGGERIMENTI MIRATI — nella pagina Stats, individua i trait type in cui
+// manca esattamente UN valore per completare il relativo badge "Master" di
+// una collezione, e lo segnala con un'azione precisa (quale valore cercare
+// e dove comprarlo), invece del solo numero generico di completamento.
+// ==========================================================
+
+function getGroupMissingTraitValues(data, groupKey, traitType) {
+  const normMeta = getNormalizedTraitsMeta(data.traitsMeta && data.traitsMeta[groupKey]);
+  if (!normMeta || !normMeta.counts[traitType]) return [];
+  const normCounts = buildNormalizedCounts(normMeta.counts[traitType]);
+  const allValues = Object.keys(normCounts);
+  const owned = new Set();
+  (data.byGroup[groupKey] || []).forEach((item) => { (item.traits || []).forEach((t) => { if (normTraitType(t.trait_type) === traitType) owned.add(normTraitValue(t.value)); }); });
+  return allValues.filter((v) => !owned.has(v));
+}
+
+function getNearCompleteTraitSuggestions(data, maxResults = 3) {
+  const suggestions = [];
+  ALBUM_GROUPS.forEach((group) => {
+    if (group.special || group.traitsUnavailable) return;
+    const normMeta = getNormalizedTraitsMeta(data.traitsMeta && data.traitsMeta[group.key]);
+    if (!normMeta) return;
+    Object.keys(normMeta.counts).forEach((traitType) => {
+      if (normMeta.categories[traitType] && normMeta.categories[traitType] !== "string") return;
+      if (isTraitTypeComplete(data, group.key, traitType)) return;
+      const missing = getGroupMissingTraitValues(data, group.key, traitType);
+      if (missing.length === 1) suggestions.push({ group, traitType, missingValue: missing[0] });
+    });
+  });
+  return suggestions.slice(0, maxResults);
+}
+
+function buildSuggestionsHtml(data) {
+  const suggestions = getNearCompleteTraitSuggestions(data);
+  if (suggestions.length === 0) return "";
+  const cards = suggestions.map((s) => {
+    const buyUrl = openSeaTraitBuyUrl(s.group.slug, s.traitType, s.missingValue);
+    return `<div class="guide-card suggestion"><div class="guide-icon">🎯</div><div><div class="guide-name">You're 1 trait away from the "${s.traitType} Master" badge in ${s.group.label}!</div><div class="guide-desc">Grab a piece with "${s.traitType}: ${s.missingValue}" to complete it. <a href="${buyUrl}" target="_blank" rel="noopener noreferrer">Find it on OpenSea &rarr;</a></div></div></div>`;
+  }).join("");
+  return `<div class="section-title" style="margin-top:32px;">Almost There <div class="bar"></div></div><div class="guide-list">${cards}</div>`;
+}
+
+const RARITY_RANK_MEDALS = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
+
+function buildRarestPiecesHtml(data) {
+  const top = getTopRarestOwnedPieces(data, 5);
+  if (top.length === 0) return "";
+  const cards = top.map((p, i) => {
+    const thumb = itemThumbHtml(p.item, "🐋");
+    return `<div class="owned-item-card" style="text-align:left; position:relative;">
+      <div style="position:absolute; top:8px; left:8px; z-index:2; background:var(--ink); color:var(--paper); border-radius:999px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:14px;">${RARITY_RANK_MEDALS[i] || `#${i + 1}`}</div>
+      ${thumb}
+      <div class="item-name">${escapeHtml(p.itemName)}</div>
+      <div class="mono" style="font-size:11px; color:#6b6b70; padding:0 6px 10px; line-height:1.4;">${p.groupLabel} &middot; ${p.traitType}: ${p.value}<br/>only ${p.count} in existence</div>
+    </div>`;
+  }).join("");
+  return `<div class="section-title" style="margin-top:32px;">Rarest Pieces Owned <div class="bar"></div></div><div class="owned-items-grid">${cards}</div>`;
+}
+
 function buildStatsPageHtml(data) {
-  const rarest = getRarestOwnedPiece(data);
   const allBadges = getAllBadgesFlat(data);
+  const visibleBadges = allBadges.filter((b) => b.earned || !b.secret);
   const totalBadgesEarned = allBadges.filter((b) => b.earned).length;
+  const profile = getStoredProfile(currentAddress);
+  const avatarHtml = profile.avatarImage
+    ? `<img src="${escapeHtml(profile.avatarImage.url)}" alt="avatar" />`
+    : escapeHtml(profile.avatarEmoji);
 
   return `
     <span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span>
-    <div class="section-title">My Stats <div class="bar"></div></div>
+    <div class="section-title">Collector Profile <div class="bar"></div></div>
+    <div class="panel profile-header">
+      <div class="profile-avatar" id="profileAvatarBtn" title="Change avatar">${avatarHtml}</div>
+      <div style="flex:1; min-width:200px;">
+        <div class="avatar-picker-label">Display name</div>
+        <div class="profile-name-row">
+          <input type="text" id="profileNameInput" class="mono profile-name-input" maxlength="24" value="${escapeHtml(profile.username)}" placeholder="Choose a display name" />
+          <button type="button" class="share-x" id="profileNameSaveBtn">Save</button>
+        </div>
+        <div class="mono" style="font-size:11px; color:#6b6b70; margin-top:8px;">${shortAddress(currentAddress)} &middot; click the avatar to change it</div>
+      </div>
+    </div>
     <div class="stat-cards">
       <div class="stat-card"><div class="stat-value display">${data.totalOwnedItems}</div><div class="stat-label mono">Items Owned</div></div>
       <div class="stat-card"><div class="stat-value display">${data.groupsOwned.size}/${ALBUM_GROUPS.length}</div><div class="stat-label mono">Collections</div></div>
       <div class="stat-card"><div class="stat-value display">${totalBadgesEarned}/${allBadges.length}</div><div class="stat-label mono">Badges Obtained</div></div>
       <div class="stat-card"><div class="stat-value display">${countChainsOwned(data)}</div><div class="stat-label mono">Chains</div></div>
     </div>
-    <div class="share-row"><button type="button" class="share-x" id="shareStatsBtn">𝕏 Share my stats on X</button></div>
-    ${rarest ? `<div class="section-title" style="margin-top:32px;">Rarest Piece Owned <div class="bar"></div></div><div class="panel" style="padding:16px 20px;"><strong>${rarest.itemName}</strong> (${rarest.groupLabel}) — ${rarest.traitType}: ${rarest.value}<span class="mono" style="color:#6b6b70;"> &middot; only ${rarest.count} in existence</span></div>` : ""}
+    <div class="share-row" style="flex-direction: column; align-items: center; gap: 8px;">
+      <button type="button" class="share-x" id="shareStatsBtn">𝕏 Share my stats on X</button>
+      <div class="mono" style="font-size: 12px; color: #6b6b70; text-align: center; max-width: 420px;">Downloads a shareable stats image and opens the tweet composer — attach the image to your tweet before posting (X doesn't allow auto-attaching images from a link).</div>
+    </div>
+    ${buildSuggestionsHtml(data)}
+    ${buildRarestPiecesHtml(data)}
     <div class="section-title" style="margin-top:32px;">All Badges <div class="bar"></div></div>
     <div class="mono" style="margin-bottom:12px; color:#6b6b70;">${totalBadgesEarned}/${allBadges.length} badges obtained</div>
-    <div class="badge-row panel">${allBadges.map((b) => badgeHtml(b.icon, b.label, b.earned, isPrestigeBadge(b.label))).join("")}</div>
+    <div class="badge-row panel">${visibleBadges.map((b) => badgeHtml(b.icon, b.label, b.earned, isPrestigeBadge(b.label))).join("")}</div>
+    <span class="back-link bottom" onclick="hideTraitPages()">&larr; Back to album</span>
   `;
 }
 
 function showStatsPage() {
   statsPage.innerHTML = lastBadgeData
     ? buildStatsPageHtml(lastBadgeData)
-    : `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">My Stats <div class="bar"></div></div><div class="mono">Connect your wallet to see your stats.</div>`;
+    : `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Collector Profile <div class="bar"></div></div><div class="mono">Connect your wallet to see your stats.</div>`;
   mainView.style.display = "none";
   document.querySelectorAll(".trait-page").forEach((p) => p.classList.remove("active"));
   statsPage.classList.add("active");
   if (lastBadgeData) {
     const btn = document.getElementById("shareStatsBtn");
     if (btn) btn.addEventListener("click", () => shareStatsOnX(lastBadgeData));
+    const avatarBtn = document.getElementById("profileAvatarBtn");
+    if (avatarBtn) avatarBtn.addEventListener("click", showAvatarPicker);
+    const nameSaveBtn = document.getElementById("profileNameSaveBtn");
+    const nameInput = document.getElementById("profileNameInput");
+    if (nameSaveBtn && nameInput) {
+      nameSaveBtn.addEventListener("click", () => {
+        const profile = getStoredProfile(currentAddress);
+        profile.username = nameInput.value.trim().slice(0, 24);
+        saveStoredProfile(currentAddress, profile);
+        nameInput.value = profile.username;
+        nameSaveBtn.textContent = "Saved ✓";
+        setTimeout(() => { nameSaveBtn.textContent = "Save"; }, 1500);
+      });
+    }
   }
 }
 
@@ -1159,7 +2548,7 @@ async function fetchAllCollectionNFTs(slug, maxPages = 25, maxItems = Infinity) 
   let all = [], next;
   for (let page = 0; page < maxPages; page++) {
     if (all.length >= maxItems) break;
-    const url = `https://api.opensea.io/api/v2/collection/${slug}/nfts?limit=200${next ? `&next=${encodeURIComponent(next)}` : ""}`;
+    const url = `${OPENSEA_PROXY_BASE}/api/v2/collection/${slug}/nfts?limit=200${next ? `&next=${encodeURIComponent(next)}` : ""}`;
     const { ok, status, data } = await fetchOpenSeaJson(url);
     if (!ok) { console.warn(`Collection NFTs API error for ${slug}:`, status); break; }
     all = all.concat(data.nfts || []);
@@ -1172,14 +2561,52 @@ async function fetchAllCollectionNFTs(slug, maxPages = 25, maxItems = Infinity) 
 function countAllBadgesEarned(data) {
   let count = BADGES.filter((b) => b.check(data)).length;
   ALBUM_GROUPS.forEach((group) => { count += getGroupBadges(group, data).filter((b) => b.earned).length; });
+  count += SECRET_BADGES.filter((b) => b.check(data)).length;
   return count;
 }
 
+// Recupera la descrizione di un badge generale dal Badge Guide (GENERAL_BADGE_GUIDE),
+// così testo del tweet e immagine condivisa restano sempre allineati alla spiegazione
+// ufficiale mostrata nella pagina "Badge Guide".
+function describeGeneralBadge(label) {
+  const found = GENERAL_BADGE_GUIDE.find((b) => b.name === label);
+  return found ? found.desc : "";
+}
+
+// Stesso principio per i badge di collezione: name è il nome del badge SENZA il
+// prefisso di gruppo (es. "Full Completion", non "🤠 Men: Full Completion").
+function describeGroupBadge(group, name) {
+  if (group.special) {
+    if (name === "Completionist" || name === "Master") {
+      const found = COLLECTION_BADGE_GUIDE.find((b) => b.name.indexOf("Master (special") === 0);
+      return found ? found.desc : "";
+    }
+    const found = COLLECTION_BADGE_GUIDE.find((b) => b.name.indexOf("Series badges") === 0);
+    return found ? found.desc : "";
+  }
+  if (name === "Completionist" || name === "Full Completion" || name === "Rare Find") {
+    const found = COLLECTION_BADGE_GUIDE.find((b) => b.name === name);
+    return found ? found.desc : "";
+  }
+  if (/ Master$/.test(name)) {
+    const traitType = name.replace(/ Master$/, "");
+    return `Own every existing value of the "${traitType}" trait in the ${group.label} collection.`;
+  }
+  return "";
+}
+
 function getAllBadgesFlat(data) {
-  const badges = BADGES.map((b) => ({ icon: b.icon, label: b.label, earned: b.check(data) }));
-  ALBUM_GROUPS.forEach((group) => { getGroupBadges(group, data).forEach((b) => { badges.push({ icon: b.icon, label: `${group.icon} ${group.label}: ${b.label}`, earned: b.earned }); }); });
+  const badges = BADGES.map((b) => ({ icon: b.icon, label: b.label, name: b.label, earned: b.check(data), desc: describeGeneralBadge(b.label) }));
+  ALBUM_GROUPS.forEach((group) => { getGroupBadges(group, data).forEach((b) => { badges.push({ icon: b.icon, label: `${group.icon} ${group.label}: ${b.label}`, name: b.label, earned: b.earned, desc: describeGroupBadge(group, b.label) }); }); });
+  SECRET_BADGES.forEach((b) => { badges.push({ icon: b.icon, label: b.label, name: b.label, earned: !!b.check(data), desc: b.desc, secret: true }); });
   return badges;
 }
+
+// ==========================================================
+// PAGINA LEADERBOARD — ora legge direttamente le righe già calcolate
+// nello sheet (nessuna nuova chiamata a OpenSea per ogni wallet: molto
+// più veloce e scalabile con tanti utenti registrati).
+// ==========================================================
 
 function showLeaderboardPage() {
   mainView.style.display = "none";
@@ -1192,38 +2619,47 @@ const LEADERBOARD_METRICS = [
   { key: "totalBadges", label: "Badges Earned" },
   { key: "totalItems", label: "Total NFTs Owned" },
   { key: "collectionsCompleted", label: "Collections Completed" },
-  { key: "albumPct", label: "Album Completion %" },
+  { key: "albumPct", label: "Collector Rank %" },
   { key: "collectionsOwned", label: "Collections Owned" },
 ];
 
 let leaderboardEntries = [];
 
 async function loadLeaderboardData() {
-  const progressEl = () => document.getElementById("leaderboardProgress");
-  leaderboardPage.innerHTML = `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Leaderboard <div class="bar"></div></div><div class="mono" id="leaderboardProgress">Loading registered wallets...</div>`;
+  leaderboardPage.innerHTML = `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Leaderboard <div class="bar"></div></div><div class="mono">Loading leaderboard...</div>`;
 
-  const addresses = await getRegisteredLeaderboardAddresses();
-  if (addresses.length === 0) {
-    leaderboardPage.innerHTML = `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Leaderboard <div class="bar"></div></div><div class="mono">No wallets registered yet — the leaderboard fills up as people connect to the album (or storage isn't available in this environment).</div>`;
+  if (!LEADERBOARD_API_URL) {
+    leaderboardPage.innerHTML = `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Leaderboard <div class="bar"></div></div><div class="mono">Leaderboard not configured yet — set LEADERBOARD_API_URL to your Google Apps Script Web App URL (see apps-script.gs).</div>`;
     leaderboardEntries = [];
     return;
   }
 
-  const results = [];
-  for (let i = 0; i < addresses.length; i++) {
-    const address = addresses[i];
-    if (progressEl()) progressEl().textContent = `Checking wallet ${i + 1}/${addresses.length}: ${shortAddress(address)}...`;
-    const byGroup = {};
-    await loadGroupsWithConcurrency(ALBUM_GROUPS, 3, async (group) => { byGroup[group.key] = await fetchOwnedNFTs(address, group.chain, group.slug); });
-    const data = buildBadgeData(byGroup, lastTraitsMeta);
-    results.push({
-      address, totalItems: data.totalOwnedItems, collectionsOwned: data.groupsOwned.size,
-      collectionsCompleted: ALBUM_GROUPS.filter((g) => isGroupCompleted(data, g)).length,
-      albumPct: albumCompletionPct(data), totalBadges: countAllBadgesEarned(data),
-    });
+  const entries = await fetchLeaderboardEntries();
+  if (entries === null) {
+    leaderboardPage.innerHTML = `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Leaderboard <div class="bar"></div></div><div class="mono">Couldn't load the leaderboard right now — please try again later.</div>`;
+    leaderboardEntries = [];
+    return;
   }
-  leaderboardEntries = results;
+
+  leaderboardEntries = entries;
+  if (leaderboardEntries.length === 0) {
+    leaderboardPage.innerHTML = `<span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span><div class="section-title">Leaderboard <div class="bar"></div></div><div class="mono">No wallets registered yet — the leaderboard fills up as people connect to the album.</div>`;
+    return;
+  }
   renderLeaderboardPage("totalBadges");
+}
+
+// Avatar mostrato nella colonna "Collector" della leaderboard: l'immagine
+// caricata/scelta dall'utente se presente, altrimenti l'emoji scelta,
+// altrimenti un'emoji generica di fallback (per chi non ha ancora
+// personalizzato il proprio profilo).
+function leaderboardAvatarHtml(entry) {
+  if (entry.avatarImageUrl) {
+    const safeSrc = escapeHtml(entry.avatarImageUrl);
+    return `<img src="${safeSrc}" alt="" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid var(--ink); flex-shrink:0;" />`;
+  }
+  const emoji = entry.avatarEmoji || "🧑";
+  return `<span style="display:flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; border:2px solid var(--ink); background:var(--panel); font-size:15px; flex-shrink:0;">${emoji}</span>`;
 }
 
 function renderLeaderboardPage(sortKey) {
@@ -1231,15 +2667,27 @@ function renderLeaderboardPage(sortKey) {
   const options = LEADERBOARD_METRICS.map((m) => `<option value="${m.key}" ${m.key === sortKey ? "selected" : ""}>${m.label}</option>`).join("");
   const rows = sorted.slice(0, 50).map((e, i) => {
     const rankLabel = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+    const rankClass = i === 0 ? "rank-gold" : i === 1 ? "rank-silver" : i === 2 ? "rank-bronze" : "";
     const isYou = currentAddress && e.address === currentAddress.toLowerCase();
-    return `<tr class="${isYou ? "leaderboard-row-you" : ""}"><td>${rankLabel}</td><td class="mono">${shortAddress(e.address)}${isYou ? " (you)" : ""}</td><td class="mono">${e.totalBadges}</td><td class="mono">${e.totalItems}</td><td class="mono">${e.collectionsOwned}/${ALBUM_GROUPS.length}</td><td class="mono">${e.collectionsCompleted}</td><td class="mono">${e.albumPct}%</td></tr>`;
+    const rowClass = [isYou ? "leaderboard-row-you" : "", rankClass].filter(Boolean).join(" ");
+    const displayName = e.username ? escapeHtml(e.username) : shortAddress(e.address);
+    const walletCell = `
+      <div style="display:flex; align-items:center; gap:10px;">
+        ${leaderboardAvatarHtml(e)}
+        <div>
+          <span class="leaderboard-wallet-frame mono">${displayName}${isYou ? " (you)" : ""}</span>
+          ${e.username ? `<div class="mono" style="font-size:10px; color:#6b6b70; margin-top:2px;">${shortAddress(e.address)}</div>` : ""}
+        </div>
+      </div>`;
+    return `<tr class="${rowClass}"><td>${rankLabel}</td><td>${walletCell}</td><td class="mono">${e.totalBadges}</td><td class="mono">${e.totalItems}</td><td class="mono">${e.collectionsOwned}/${ALBUM_GROUPS.length}</td><td class="mono">${e.collectionsCompleted}</td><td class="mono">${e.albumPct}%</td><td>${getCollectorRank(e.albumPct).title}</td></tr>`;
   }).join("");
 
   leaderboardPage.innerHTML = `
     <span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span>
     <div class="section-title">Leaderboard <div class="bar"></div></div>
     <div class="mono" style="margin-bottom:14px; color:#6b6b70;">${leaderboardEntries.length} registered wallet${leaderboardEntries.length === 1 ? "" : "s"} (users who've connected to the album, not every on-chain holder). Sorted by: <select id="leaderboardSort" class="mono">${options}</select></div>
-    <table class="leaderboard-table"><thead><tr><th></th><th>Wallet</th><th>Badges</th><th>NFTs</th><th>Collections</th><th>Completed</th><th>Album %</th></tr></thead><tbody>${rows}</tbody></table>
+    <table class="leaderboard-table"><thead><tr><th></th><th>Collector</th><th>Badges</th><th>NFTs</th><th>Collections</th><th>Completed</th><th>Rank %</th><th>Collector Rank</th></tr></thead><tbody>${rows}</tbody></table>
+    <span class="back-link bottom" onclick="hideTraitPages()">&larr; Back to album</span>
   `;
   document.getElementById("leaderboardSort").addEventListener("change", (e) => renderLeaderboardPage(e.target.value));
 }
@@ -1250,6 +2698,7 @@ const GENERAL_BADGE_GUIDE = [
   { icon: "⭐", name: "OG Holder", desc: "Own NFTs from at least 5 MetaMuseX/Dolly collections." },
   { icon: "💎", name: "Diamond Collector", desc: "Own NFTs from every MetaMuseX/Dolly collection." },
   { icon: "🌉", name: "Multi-Chain", desc: "Own NFTs across at least 2 different blockchains." },
+  { icon: "🐋", name: "Rare Collector", desc: "Own at least 5 distinct NFTs that each have an ultra-rare trait value (held by very few pieces across the whole collection)." },
 ];
 
 const COLLECTION_BADGE_GUIDE = [
@@ -1265,14 +2714,77 @@ function guideCardHtml(icon, name, desc) {
   return `<div class="guide-card"><div class="guide-icon">${icon}</div><div><div class="guide-name">${name}</div><div class="guide-desc">${desc}</div></div></div>`;
 }
 
+// Descrive, in una riga, cosa serve per portare al 100% una specifica
+// collezione nel calcolo del Collector Rank. Attinge direttamente alla
+// configurazione di ALBUM_GROUPS (special / traitsUnavailable /
+// completionThreshold), così se in futuro cambi una soglia nel codice
+// questo testo si aggiorna da solo, senza rischio di disallineamento.
+function describeGroupCompletionCriterion(group) {
+  if (group.special) {
+    const threshold = group.completionThreshold || SPECIAL_MASTER_MIN;
+    return threshold <= 1
+      ? "Own at least 1 piece from this collection."
+      : `Own at least ${threshold} pieces from this collection (fewer pieces = partial credit).`;
+  }
+  if (group.traitsUnavailable) {
+    const threshold = group.completionThreshold || 1;
+    return threshold <= 1
+      ? "Own at least 1 piece from this collection."
+      : `Own at least ${threshold} pieces from this collection (fewer pieces = partial credit). Trait tracking isn't reliable for this collection yet, so piece count is used instead.`;
+  }
+  return "Own at least one piece with every existing trait value in this collection (not every NFT — just every trait value at least once).";
+}
+
+function buildCollectorRankGuideHtml() {
+  const rows = ALBUM_GROUPS.map((g) => guideCardHtml(g.icon, g.label, describeGroupCompletionCriterion(g))).join("");
+  const rankRows = COLLECTOR_RANKS.map((r, i) => {
+    const nextMin = COLLECTOR_RANKS[i + 1] ? COLLECTOR_RANKS[i + 1].min : null;
+    const range = nextMin != null ? `${r.min}–${nextMin - 1}%` : `${r.min}%`;
+    return `<tr><td class="mono">${range}</td><td style="font-weight:700;">${r.title}</td></tr>`;
+  }).join("");
+  return `
+    <div class="panel" style="padding: 18px 20px; margin-bottom: 20px;">
+      <div style="font-weight: 700; margin-bottom: 8px;">What is my Collector Rank?</div>
+      <div style="font-size: 14px; line-height: 1.55; margin-bottom: 14px;">
+        The big percentage at the top of the album — and the title underneath it — reflect your
+        <strong>Collector Rank</strong>: the average completion across every collection listed below. The higher it
+        climbs, the higher your title, from Rookie all the way up to Legendary Collector. It's calculated against
+        what exists <strong>today</strong>, so if new MetaMuseX/Dolly collections launch — or new badges get added
+        down the line — there's simply more to collect, and your rank can shift over time even if you don't change
+        anything. Think of it as an ongoing collector score, not a one-time 100% you unlock and forget.
+      </div>
+      <table class="leaderboard-table"><thead><tr><th>Rank %</th><th>Title</th></tr></thead><tbody>${rankRows}</tbody></table>
+    </div>
+    <div class="guide-list">${rows}</div>
+  `;
+}
+
+function buildRelaxGuideHtml() {
+  const cards = [
+    guideCardHtml("😌", "Metti a riposo un NFT", "Su ogni NFT posseduto (non listato in vendita) puoi cliccare \"Relax\" per metterlo a riposo. Puoi tenerne a riposo uno per volta per ogni collezione."),
+    guideCardHtml("⏳", "Livelli e tempo di attesa", "Più a lungo lasci l'NFT a riposo, più livelli sblocchi: il tempo è cumulativo dal momento in cui hai premuto \"Relax\", non si resetta."),
+    guideCardHtml("🎨", "Nuovo sfondo ad ogni livello", "Ogni livello raggiunto sblocca un nuovo sfondo per il tuo personaggio."),
+    guideCardHtml("⬇️", "Scarica la tua immagine", "Una volta sbloccato un livello, puoi scaricare un'immagine con il tuo personaggio sul nuovo sfondo — puoi anche aggiungere una scritta o una piccola creatura decorativa prima di scaricarla."),
+    guideCardHtml("🔓", "Libera lo slot", "Una volta che l'NFT a riposo raggiunge il livello massimo, si libera lo slot: puoi mettere a riposo un altro NFT della stessa collezione."),
+    guideCardHtml("↩️", "Cambiato idea?", "Puoi togliere in qualsiasi momento un NFT dal riposo cliccando \"Togli dal riposo\" — attenzione, il progresso fatto fino a lì andrà perso."),
+  ];
+  return `<div class="guide-list">${cards.join("")}</div>`;
+}
+
 function showBadgeGuidePage() {
   badgeGuidePage.innerHTML = `
     <span class="back-link" onclick="hideTraitPages()">&larr; Back to album</span>
     <div class="section-title">Badge Guide <div class="bar"></div></div>
-    <div class="section-title" style="margin-top:0; font-size:20px;">General Badges <div class="bar"></div></div>
+    <div class="section-title" style="margin-top:0; font-size:20px;">How to Reach 100% Collector Rank <div class="bar"></div></div>
+    ${buildCollectorRankGuideHtml()}
+    <div class="section-title" style="margin-top:32px; font-size:20px;">General Badges <div class="bar"></div></div>
     <div class="guide-list">${GENERAL_BADGE_GUIDE.map((b) => guideCardHtml(b.icon, b.name, b.desc)).join("")}</div>
     <div class="section-title" style="margin-top:32px; font-size:20px;">Collection Badges <div class="bar"></div></div>
     <div class="guide-list">${COLLECTION_BADGE_GUIDE.map((b) => guideCardHtml(b.icon, b.name, b.desc)).join("")}</div>
+    <div class="section-title" style="margin-top:32px; font-size:20px;">😌 Relax System <div class="bar"></div></div>
+    ${buildRelaxGuideHtml()}
+    <div class="mono" style="margin-top:28px; color:#6b6b70; font-size:13px;">Psst — not every badge is listed here. Some are secret and only reveal themselves once you've earned them...</div>
+    <span class="back-link bottom" onclick="hideTraitPages()">&larr; Back to album</span>
   `;
   mainView.style.display = "none";
   document.querySelectorAll(".trait-page").forEach((p) => p.classList.remove("active"));
@@ -1311,6 +2823,7 @@ async function loadAirdropData() {
 
   const myAddress = currentAddress ? currentAddress.toLowerCase() : null;
   const sectionsHtml = [];
+  let allOwnedAcrossSections = [];
 
   for (const section of AIRDROP_SECTIONS) {
     const items = await getAirdropSectionItems(section);
@@ -1330,6 +2843,7 @@ async function loadAirdropData() {
     };
 
     const owned = items.filter(isItemOwned);
+    allOwnedAcrossSections = allOwnedAcrossSections.concat(owned);
 
     const cardsHtml = items.map((item) => {
       const itemOwned = isItemOwned(item);
@@ -1359,7 +2873,615 @@ async function loadAirdropData() {
     </div>
     ${myAddress ? "" : `<div class="mono">Connect your wallet to see which airdrop pieces you already own.</div>`}
     ${sectionsHtml.join("")}
+    <span class="back-link bottom" onclick="hideTraitPages()">&larr; Back to album</span>
   `;
+
+  if (myAddress) {
+    const newlyOwned = checkNewAirdropItems(myAddress, allOwnedAcrossSections);
+    if (newlyOwned.length > 0) showAirdropDropPopup(newlyOwned);
+  }
+}
+
+/* ============================================================
+   RELAX SYSTEM — configurabile per più collezioni.
+   Per aggiungere/attivare una collezione: aggiungi/abilita la sua
+   voce in RELAX_COLLECTIONS con lo slug giusto e l'ordine dei layer.
+   ============================================================ */
+
+const RELAX_COLLECTIONS = {
+  summer: {
+    slug: "metamusex-summer-vibes",
+    assetFolder: "metamusex-summer-vibes",
+    enabled: false, // nascosto per ora: tratti non ancora rivelati
+    layerOrder: ["eyes", "body", "mouth", "outfit", "hair", "glasses", "accessories"],
+  },
+  men: {
+    slug: "metamusex-men-official", // slug reale su OpenSea, usato per le chiamate API
+    assetFolder: "metamusex-men-official", // nome cartella usato nel repo per gli asset
+    enabled: true,
+    layerOrder: ["body", "eyes", "clothes", "glasses", "hair-and-hat", "accessory", "mouth"],
+  },
+};
+
+const RELAX_ITEMS_BY_ID = {}; // { [groupKey]: { [identifier]: item } }, popolato in renderGroupPages
+
+// Soglie CUMULATIVE in giorni dall'inizio del riposo (non resettabili)
+// Livello 1: 3gg totali | Livello 2: 3+6=9gg | Livello 3: 9+20=29gg | Livello 4: 29+35=64gg
+// *** MODALITÀ TEST ATTIVA: 2 minuti per livello invece dei giorni reali ***
+// Per tornare alla versione reale, sostituisci la riga sotto con:
+// const REST_LEVEL_DURATIONS_DAYS = [3, 6, 20, 35];
+const REST_LEVEL_DURATIONS_DAYS = [2 / 1440, 2 / 1440, 2 / 1440, 2 / 1440]; // 2 min, 2 min, 2 min, 2 min
+const REST_LEVEL_THRESHOLDS_DAYS = REST_LEVEL_DURATIONS_DAYS.reduce((acc, d) => {
+  const prev = acc.length ? acc[acc.length - 1] : 0;
+  acc.push(prev + d);
+  return acc;
+}, []); // -> [3, 9, 29, 64]
+
+const RELAX_ASSET_BASE = "assets/relax";
+
+function slugifyRelax(str) {
+  return String(str).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+// Gli NFT con un trait type "Special" (qualsiasi valore) non possono andare a riposo:
+// spesso pezzi unici che non seguono la struttura a layer standard.
+function isSpecialRelaxItem(item) {
+  return (item.traits || []).some((t) => slugifyRelax(t.trait_type) === "special");
+}
+
+function getRelaxChain(groupKey) {
+  return (ALBUM_GROUPS.find((g) => g.key === groupKey) || {}).chain || "ethereum";
+}
+
+function restStorageKey(address, collectionSlug, identifier) {
+  return `relax:${address.toLowerCase()}:${collectionSlug}:${identifier}`;
+}
+
+// Cerca, per questo wallet e questa collezione, se c'è già un NFT a riposo
+// che NON ha ancora raggiunto il livello massimo (diverso da quello passato).
+// Un solo NFT "attivo" per collezione può riposare alla volta; una volta
+// raggiunto il livello massimo, si libera lo slot per un nuovo NFT.
+function getActiveRestForCollection(address, collectionSlug, excludingIdentifier) {
+  const prefix = `relax:${address.toLowerCase()}:${collectionSlug}:`;
+  const maxThreshold = REST_LEVEL_THRESHOLDS_DAYS[REST_LEVEL_THRESHOLDS_DAYS.length - 1];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key || !key.startsWith(prefix)) continue;
+    const identifier = key.slice(prefix.length);
+    if (String(identifier) === String(excludingIdentifier)) continue;
+    try {
+      const state = JSON.parse(localStorage.getItem(key));
+      const elapsedDays = (Date.now() - state.startedAt) / (1000 * 60 * 60 * 24);
+      if (elapsedDays >= maxThreshold) continue; // già maxato: non blocca più lo slot
+      return { identifier, ...state };
+    } catch (e) {}
+  }
+  return null;
+}
+
+function startRest(address, collectionSlug, identifier) {
+  const key = restStorageKey(address, collectionSlug, identifier);
+  const existing = localStorage.getItem(key);
+  if (existing) return JSON.parse(existing);
+  const state = { startedAt: Date.now(), identifier };
+  localStorage.setItem(key, JSON.stringify(state));
+  return state;
+}
+
+function getRestState(address, collectionSlug, identifier) {
+  if (!address) return null;
+  const raw = localStorage.getItem(restStorageKey(address, collectionSlug, identifier));
+  if (!raw) return null;
+  const state = JSON.parse(raw);
+  const elapsedDays = (Date.now() - state.startedAt) / (1000 * 60 * 60 * 24);
+
+  let currentLevel = 0;
+  for (let i = 0; i < REST_LEVEL_THRESHOLDS_DAYS.length; i++) {
+    if (elapsedDays >= REST_LEVEL_THRESHOLDS_DAYS[i]) currentLevel = i + 1;
+  }
+
+  const nextThreshold = REST_LEVEL_THRESHOLDS_DAYS[currentLevel] ?? null;
+  const prevThreshold = currentLevel > 0 ? REST_LEVEL_THRESHOLDS_DAYS[currentLevel - 1] : 0;
+  const progressPercent = nextThreshold != null
+    ? Math.min(100, ((elapsedDays - prevThreshold) / (nextThreshold - prevThreshold)) * 100)
+    : 100;
+
+  return {
+    ...state, elapsedDays, currentLevel,
+    maxLevel: REST_LEVEL_THRESHOLDS_DAYS.length,
+    nextThresholdDays: nextThreshold, progressPercent,
+    isMaxed: currentLevel >= REST_LEVEL_THRESHOLDS_DAYS.length,
+  };
+}
+
+async function isNftListedForSale(collectionSlug, identifier) {
+  try {
+    const url = `${OPENSEA_PROXY_BASE}/api/v2/listings/collection/${collectionSlug}/nfts/${identifier}/best`;
+    const res = await fetch(url, { headers: { accept: "application/json" } });
+    if (res.status === 404) return false; // nessuna inserzione attiva per questo NFT
+    if (!res.ok) return false; // in dubbio, non blocchiamo l'utente
+    const data = await res.json();
+    return !!(data && (data.listing || data.order || data.price));
+  } catch (e) {
+    console.warn("Impossibile verificare lo stato di vendita:", e);
+    return false;
+  }
+}
+
+function cancelRest(groupKey, identifier) {
+  const config = RELAX_COLLECTIONS[groupKey];
+  if (!config || !currentAddress) return;
+  const sure = confirm("Vuoi togliere questo NFT dal riposo? Il progresso attuale andrà perso.");
+  if (!sure) return;
+  localStorage.removeItem(restStorageKey(currentAddress, config.slug, identifier));
+  refreshAllRelaxWidgetsForCollection(groupKey);
+}
+
+function relaxWidgetHtml(groupKey, identifier) {
+  const config = RELAX_COLLECTIONS[groupKey];
+  if (!config) return "";
+  if (!currentAddress) return `<div class="relax-widget"><div class="relax-status mono">Connetti il wallet per mettere a riposo</div></div>`;
+
+  const item = (RELAX_ITEMS_BY_ID[groupKey] || {})[String(identifier)];
+  if (item && isSpecialRelaxItem(item)) {
+    return `<div class="relax-widget"><div class="relax-status mono">Pezzo speciale: non può andare a riposo</div></div>`;
+  }
+
+  const state = getRestState(currentAddress, config.slug, identifier);
+
+  if (!state) {
+    const activeElsewhere = getActiveRestForCollection(currentAddress, config.slug, identifier);
+    if (activeElsewhere) {
+      return `<div class="relax-widget"><button class="relax-btn" disabled style="opacity:0.4; cursor:not-allowed;">😌 Relax</button></div>`;
+    }
+    return `<div class="relax-widget"><button class="relax-btn" onclick="handleRelaxClick('${groupKey}', '${identifier}')">😌 Relax</button></div>`;
+  }
+
+  const pct = Math.round(state.progressPercent);
+  const daysLeft = state.nextThresholdDays != null ? Math.max(0, state.nextThresholdDays - state.elapsedDays).toFixed(1) : 0;
+
+  return `
+    <div class="relax-widget">
+      <div class="relax-bar-track"><div class="relax-bar-fill" style="width:${pct}%;"></div></div>
+      <div class="relax-status mono">${state.isMaxed ? "Livello massimo raggiunto ✨" : `Livello ${state.currentLevel}/${state.maxLevel} · ${daysLeft}gg al prossimo`}</div>
+      ${state.currentLevel > 0 ? `<button class="relax-btn secondary" onclick="handleDownloadRelaxImage('${groupKey}', '${identifier}', ${state.currentLevel})">⬇️ Scarica (Liv. ${state.currentLevel})</button>` : ""}
+      <button type="button" class="relax-caption-close" style="align-self:center;" onclick="cancelRest('${groupKey}', '${identifier}')">Togli dal riposo</button>
+    </div>`;
+}
+
+function refreshRelaxWidget(groupKey, identifier) {
+  const el = document.getElementById(`relax-widget-${groupKey}-${identifier}`);
+  if (el) el.innerHTML = relaxWidgetHtml(groupKey, identifier);
+}
+
+// Ri-renderizza tutti i widget della collezione (usato dopo aver avviato un riposo,
+// per bloccare subito il pulsante sugli altri NFT della stessa collezione)
+function refreshAllRelaxWidgetsForCollection(groupKey) {
+  const items = RELAX_ITEMS_BY_ID[groupKey] || {};
+  Object.keys(items).forEach((id) => refreshRelaxWidget(groupKey, id));
+}
+
+async function handleRelaxClick(groupKey, identifier) {
+  const config = RELAX_COLLECTIONS[groupKey];
+  if (!currentAddress) { alert("Connetti il wallet prima."); return; }
+  const item = (RELAX_ITEMS_BY_ID[groupKey] || {})[String(identifier)];
+  if (!item) { alert("NFT non trovato tra quelli posseduti."); return; }
+  if (isSpecialRelaxItem(item)) { alert("Questo è un pezzo speciale e non può andare a riposo."); return; }
+
+  const activeElsewhere = getActiveRestForCollection(currentAddress, config.slug, identifier);
+  if (activeElsewhere) {
+    alert(`Hai già #${activeElsewhere.identifier} a riposo in questa collezione. Un solo NFT per collezione alla volta.`);
+    refreshRelaxWidget(groupKey, identifier);
+    return;
+  }
+
+  const btn = document.querySelector(`#relax-widget-${groupKey}-${identifier} .relax-btn`);
+  if (btn) { btn.disabled = true; btn.textContent = "Verifico..."; }
+
+  const listed = await isNftListedForSale(config.slug, identifier);
+  if (listed) {
+    alert("Questo NFT è attualmente in vendita: rimuovi l'inserzione per poterlo mettere a riposo.");
+    refreshRelaxWidget(groupKey, identifier);
+    return;
+  }
+
+  startRest(currentAddress, config.slug, identifier);
+  refreshAllRelaxWidgetsForCollection(groupKey);
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Impossibile caricare ${src}`));
+    img.src = src;
+  });
+}
+
+async function composeRelaxImage(groupKey, identifier, level, traits) {
+  const config = RELAX_COLLECTIONS[groupKey];
+  const layerOrder = config.layerOrder;
+  const canvas = document.createElement("canvas");
+  canvas.width = 1000; canvas.height = 1000;
+  const ctx = canvas.getContext("2d");
+
+  const bgSrc = `${RELAX_ASSET_BASE}/backgrounds/${config.assetFolder}/level-${level}.png`;
+  const bgImg = await loadImage(bgSrc);
+  ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+
+  const traitMap = {};
+  (traits || []).forEach((t) => { traitMap[slugifyRelax(t.trait_type)] = t.value; });
+
+  for (const layerType of layerOrder) {
+    const value = traitMap[layerType];
+    if (!value) continue;
+    const layerSrc = `${RELAX_ASSET_BASE}/layers/${config.assetFolder}/${layerType}/${encodeURIComponent(value)}.png`;
+    try {
+      const layerImg = await loadImage(layerSrc);
+      ctx.drawImage(layerImg, 0, 0, canvas.width, canvas.height);
+    } catch (e) {
+      console.warn(e.message);
+    }
+  }
+
+  return canvas;
+}
+
+/* ---- Cartello/testo opzionale sopra l'immagine (stile fumetto) ---- */
+
+const RELAX_CAPTION_PRESETS = ["GM", "GN", "MINT NOW", "I'M A METAMUSEX FAN", "WAGMI", "LFG"];
+const RELAX_CAPTION_MAX_LENGTH = 28;
+const RELAX_CAPTION_STYLES = [
+  { key: "sign", label: "🪧 Cartello" },
+  { key: "balloon", label: "💬 Fumetto" },
+  { key: "sticker", label: "🎖️ Adesivo" },
+  { key: "ribbon", label: "🎗️ Nastro" },
+  { key: "bird", label: "🐦 Uccellino" },
+  { key: "dino", label: "🦖 Dinosauro" },
+];
+const RELAX_CAPTION_DEFAULT_LABELS = { bird: "CIP CIP", dino: "RAWR" };
+let relaxCaptionState = null; // { groupKey, identifier, level, baseCanvas, text, style }
+
+function measureFittedFontSize(ctx, label, maxWidth, startSize, minSize) {
+  let fontSize = startSize;
+  ctx.font = `${fontSize}px "Bangers"`;
+  let width = ctx.measureText(label).width;
+  while (width > maxWidth && fontSize > (minSize || 20)) {
+    fontSize -= 3;
+    ctx.font = `${fontSize}px "Bangers"`;
+    width = ctx.measureText(label).width;
+  }
+  return { fontSize, width };
+}
+
+function roundedRectPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawSignCaption(ctx, canvas, label, maxWidth, startSize) {
+  const paddingX = 36, paddingY = 22;
+  const { fontSize, width: textWidth } = measureFittedFontSize(ctx, label, maxWidth, startSize);
+  const boxWidth = textWidth + paddingX * 2;
+  const boxHeight = fontSize + paddingY * 2;
+  const boxX = (canvas.width - boxWidth) / 2;
+  const boxY = canvas.height - boxHeight - canvas.height * 0.06;
+  const centerX = boxX + boxWidth / 2, centerY = boxY + boxHeight / 2;
+
+  ctx.save();
+  ctx.translate(centerX, centerY); ctx.rotate(-0.035); ctx.translate(-centerX, -centerY);
+  roundedRectPath(ctx, boxX, boxY, boxWidth, boxHeight, 18);
+  ctx.fillStyle = "#FFC93C"; ctx.fill();
+  ctx.lineWidth = Math.max(4, Math.round(canvas.width * 0.006));
+  ctx.strokeStyle = "#1B1B1F"; ctx.stroke();
+  ctx.fillStyle = "#1B1B1F";
+  ctx.font = `${fontSize}px "Bangers"`;
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, centerX, centerY + fontSize * 0.06);
+  ctx.restore();
+}
+
+function drawBalloonCaption(ctx, canvas, label, maxWidth, startSize) {
+  const paddingX = 34, paddingY = 20;
+  const { fontSize, width: textWidth } = measureFittedFontSize(ctx, label, maxWidth, startSize);
+  const boxWidth = textWidth + paddingX * 2;
+  const boxHeight = fontSize + paddingY * 2;
+  const boxX = (canvas.width - boxWidth) / 2;
+  const boxY = canvas.height - boxHeight - canvas.height * 0.16;
+  const centerX = boxX + boxWidth / 2;
+  const tailW = 26;
+  const lineWidth = Math.max(4, Math.round(canvas.width * 0.006));
+
+  // codino
+  ctx.beginPath();
+  ctx.moveTo(centerX - tailW / 2, boxY + boxHeight - 6);
+  ctx.lineTo(centerX + tailW / 2, boxY + boxHeight - 6);
+  ctx.lineTo(centerX, boxY + boxHeight + 36);
+  ctx.closePath();
+  ctx.fillStyle = "#FFF8F0"; ctx.fill();
+  ctx.lineWidth = lineWidth; ctx.strokeStyle = "#1B1B1F"; ctx.stroke();
+
+  // corpo del fumetto
+  roundedRectPath(ctx, boxX, boxY, boxWidth, boxHeight, boxHeight / 2);
+  ctx.fillStyle = "#FFF8F0"; ctx.fill();
+  ctx.lineWidth = lineWidth; ctx.strokeStyle = "#1B1B1F"; ctx.stroke();
+
+  ctx.fillStyle = "#1B1B1F";
+  ctx.font = `${fontSize}px "Bangers"`;
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, centerX, boxY + boxHeight / 2 + fontSize * 0.06);
+}
+
+function drawStickerCaption(ctx, canvas, label, maxWidth, startSize) {
+  const { fontSize, width: textWidth } = measureFittedFontSize(ctx, label, maxWidth * 0.85, Math.round(startSize * 0.85));
+  const rx = textWidth / 2 + 34, ry = fontSize / 2 + 26;
+  const centerX = canvas.width - rx - canvas.width * 0.06;
+  const centerY = ry + canvas.height * 0.07;
+  const lineWidth = Math.max(4, Math.round(canvas.width * 0.006));
+
+  ctx.save();
+  ctx.translate(centerX, centerY); ctx.rotate(0.12); ctx.translate(-centerX, -centerY);
+  ctx.beginPath(); ctx.ellipse(centerX, centerY, rx, ry, 0, 0, Math.PI * 2);
+  ctx.fillStyle = "#FF3D7F"; ctx.fill();
+  ctx.lineWidth = lineWidth; ctx.strokeStyle = "#1B1B1F"; ctx.stroke();
+  ctx.setLineDash([6, 7]); ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.ellipse(centerX, centerY, rx - 10, ry - 8, 0, 0, Math.PI * 2);
+  ctx.strokeStyle = "#FFF8F0"; ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = "#FFF8F0";
+  ctx.font = `${fontSize}px "Bangers"`;
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, centerX, centerY + fontSize * 0.06);
+  ctx.restore();
+}
+
+function drawRibbonCaption(ctx, canvas, label, maxWidth, startSize) {
+  const ribbonWidth = canvas.width * 1.6;
+  const { fontSize } = measureFittedFontSize(ctx, label, ribbonWidth * 0.55, Math.min(startSize, Math.round(canvas.width * 0.075)));
+  const ribbonHeight = fontSize + 34;
+  const lineWidth = Math.max(4, Math.round(canvas.width * 0.006));
+
+  ctx.save();
+  ctx.translate(canvas.width / 2, canvas.height * 0.16);
+  ctx.rotate(-0.33);
+  ctx.fillStyle = "#2E6DF2";
+  ctx.fillRect(-ribbonWidth / 2, -ribbonHeight / 2, ribbonWidth, ribbonHeight);
+  ctx.lineWidth = lineWidth; ctx.strokeStyle = "#1B1B1F";
+  ctx.strokeRect(-ribbonWidth / 2, -ribbonHeight / 2, ribbonWidth, ribbonHeight);
+  ctx.fillStyle = "#FFF8F0";
+  ctx.font = `${fontSize}px "Bangers"`;
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, 0, ribbonHeight * 0.04);
+  ctx.restore();
+}
+
+function drawSmallSpeechBubble(ctx, label, anchorX, anchorY, direction, fontSize) {
+  ctx.font = `${fontSize}px "Bangers"`;
+  const paddingX = 14, paddingY = 10;
+  const textW = ctx.measureText(label).width;
+  const boxW = textW + paddingX * 2, boxH = fontSize + paddingY * 2;
+  const boxY = anchorY - boxH / 2;
+  const boxX = direction === "left" ? anchorX - boxW - 26 : anchorX + 26;
+
+  roundedRectPath(ctx, boxX, boxY, boxW, boxH, boxH / 2);
+  ctx.fillStyle = "#FFF8F0"; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = "#1B1B1F"; ctx.stroke();
+
+  const tailBaseX = direction === "left" ? boxX + boxW - 4 : boxX + 4;
+  ctx.beginPath();
+  ctx.moveTo(tailBaseX, boxY + boxH * 0.3);
+  ctx.lineTo(tailBaseX, boxY + boxH * 0.7);
+  ctx.lineTo(anchorX, anchorY);
+  ctx.closePath();
+  ctx.fillStyle = "#FFF8F0"; ctx.fill();
+  ctx.lineWidth = 2; ctx.strokeStyle = "#1B1B1F"; ctx.stroke();
+
+  ctx.fillStyle = "#1B1B1F";
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, boxX + boxW / 2, boxY + boxH / 2 + fontSize * 0.05);
+}
+
+function drawBirdCaption(ctx, canvas, label) {
+  const scale = (canvas.width / 1000) * 2;
+  const x = canvas.width * 0.72, y = canvas.height * 0.16;
+
+  ctx.save();
+  ctx.strokeStyle = "#1B1B1F"; ctx.lineWidth = 3 * scale; ctx.lineCap = "round";
+  [0, 1, 2].forEach((i) => {
+    ctx.beginPath();
+    ctx.moveTo(x + (60 + i * 14) * scale, y - 10 * scale + i * 6 * scale);
+    ctx.lineTo(x + (90 + i * 14) * scale, y - 4 * scale + i * 6 * scale);
+    ctx.stroke();
+  });
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(x, y); ctx.scale(scale, scale);
+  ctx.lineWidth = 4; ctx.strokeStyle = "#1B1B1F";
+
+  ctx.beginPath(); ctx.moveTo(-24, 4); ctx.lineTo(-40, -6); ctx.lineTo(-40, 12); ctx.closePath();
+  ctx.fillStyle = "#2E6DF2"; ctx.fill(); ctx.stroke();
+
+  ctx.beginPath(); ctx.ellipse(0, 0, 26, 20, 0, 0, Math.PI * 2);
+  ctx.fillStyle = "#2E6DF2"; ctx.fill(); ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(-6, -2); ctx.quadraticCurveTo(-20, -20, -34, -8); ctx.quadraticCurveTo(-16, 2, -6, 10); ctx.closePath();
+  ctx.fillStyle = "#FFC93C"; ctx.fill(); ctx.stroke();
+
+  ctx.beginPath(); ctx.moveTo(24, -2); ctx.lineTo(40, 2); ctx.lineTo(24, 8); ctx.closePath();
+  ctx.fillStyle = "#FFC93C"; ctx.fill(); ctx.stroke();
+
+  ctx.beginPath(); ctx.arc(13, -6, 3, 0, Math.PI * 2); ctx.fillStyle = "#1B1B1F"; ctx.fill();
+  ctx.restore();
+
+  const fontSize = Math.max(18, Math.round(canvas.width * 0.036));
+  drawSmallSpeechBubble(ctx, label || RELAX_CAPTION_DEFAULT_LABELS.bird, x - 44 * scale, y - 4 * scale, "left", fontSize);
+}
+
+function drawDinoCaption(ctx, canvas, label) {
+  const scale = (canvas.width / 1000) * 2.6;
+  const x = canvas.width * 0.2, y = canvas.height * 0.995;
+
+  ctx.save();
+  ctx.translate(x, y); ctx.scale(scale, scale);
+  ctx.lineWidth = 5; ctx.strokeStyle = "#1B1B1F";
+
+  ctx.beginPath();
+  ctx.moveTo(-32, 42);
+  ctx.quadraticCurveTo(-36, -8, -12, -28);
+  ctx.quadraticCurveTo(8, -46, 30, -30);
+  ctx.quadraticCurveTo(20, -18, 26, -4);
+  ctx.quadraticCurveTo(30, 12, 42, 42);
+  ctx.closePath();
+  ctx.fillStyle = "#8B5CF6"; ctx.fill(); ctx.stroke();
+
+  ctx.beginPath();
+  [[-18, -20], [-6, -30], [8, -36]].forEach(([sx, sy], i) => {
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(sx + 6, sy - 12);
+    ctx.lineTo(sx + 12, sy);
+  });
+  ctx.fillStyle = "#8B5CF6"; ctx.fill(); ctx.stroke();
+
+  ctx.beginPath(); ctx.arc(9, -22, 6, 0, Math.PI * 2);
+  ctx.fillStyle = "#FFF8F0"; ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(10.5, -22, 2.6, 0, Math.PI * 2); ctx.fillStyle = "#1B1B1F"; ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(20, -6); ctx.lineTo(26, 2); ctx.lineTo(22, 4); ctx.lineTo(27, 8); ctx.lineTo(20, 10);
+  ctx.strokeStyle = "#1B1B1F"; ctx.lineWidth = 3; ctx.stroke();
+  ctx.restore();
+
+  const fontSize = Math.max(18, Math.round(canvas.width * 0.036));
+  drawSmallSpeechBubble(ctx, label || RELAX_CAPTION_DEFAULT_LABELS.dino, x + 38 * scale, y - 70 * scale, "right", fontSize);
+}
+
+async function drawCaptionOnCanvas(sourceCanvas, text, style) {
+  const canvas = document.createElement("canvas");
+  canvas.width = sourceCanvas.width;
+  canvas.height = sourceCanvas.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(sourceCanvas, 0, 0);
+
+  const isCreatureStyle = style === "bird" || style === "dino";
+  const trimmed = (text || "").trim();
+  if (!trimmed && !isCreatureStyle) return canvas;
+
+  const label = trimmed ? trimmed.toUpperCase() : (RELAX_CAPTION_DEFAULT_LABELS[style] || "");
+  try { await document.fonts.load('64px "Bangers"'); } catch (e) {}
+
+  const maxWidth = canvas.width * 0.82;
+  const startSize = Math.round(canvas.width * 0.09);
+
+  switch (style) {
+    case "balloon": drawBalloonCaption(ctx, canvas, label, maxWidth, startSize); break;
+    case "sticker": drawStickerCaption(ctx, canvas, label, maxWidth, startSize); break;
+    case "ribbon": drawRibbonCaption(ctx, canvas, label, maxWidth, startSize); break;
+    case "bird": drawBirdCaption(ctx, canvas, label); break;
+    case "dino": drawDinoCaption(ctx, canvas, label); break;
+    default: drawSignCaption(ctx, canvas, label, maxWidth, startSize);
+  }
+
+  return canvas;
+}
+
+function closeRelaxCaptionModal() {
+  const el = document.getElementById("relax-caption-overlay");
+  if (el) el.remove();
+  relaxCaptionState = null;
+}
+
+async function updateRelaxCaptionPreview() {
+  if (!relaxCaptionState) return;
+  const preview = document.getElementById("relax-caption-preview-canvas");
+  if (!preview) return;
+  const composed = await drawCaptionOnCanvas(relaxCaptionState.baseCanvas, relaxCaptionState.text, relaxCaptionState.style);
+  preview.src = composed.toDataURL("image/png");
+}
+
+function setRelaxCaptionText(text) {
+  if (!relaxCaptionState) return;
+  relaxCaptionState.text = text.slice(0, RELAX_CAPTION_MAX_LENGTH);
+  const input = document.getElementById("relax-caption-input");
+  if (input && input.value !== relaxCaptionState.text) input.value = relaxCaptionState.text;
+  document.querySelectorAll(".relax-caption-preset-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.preset === relaxCaptionState.text);
+  });
+  updateRelaxCaptionPreview();
+}
+
+function setRelaxCaptionStyle(style) {
+  if (!relaxCaptionState) return;
+  relaxCaptionState.style = style;
+  document.querySelectorAll(".relax-caption-style-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.style === style);
+  });
+  updateRelaxCaptionPreview();
+}
+
+async function confirmRelaxCaptionDownload() {
+  if (!relaxCaptionState) return;
+  const { groupKey, identifier, level, baseCanvas, text, style } = relaxCaptionState;
+  const finalCanvas = await drawCaptionOnCanvas(baseCanvas, text, style);
+  triggerCanvasDownload(finalCanvas, groupKey, identifier, level);
+  closeRelaxCaptionModal();
+}
+
+function triggerCanvasDownload(canvas, groupKey, identifier, level) {
+  const link = document.createElement("a");
+  link.download = `${groupKey}-${identifier}-relax-level-${level}.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+function openRelaxCaptionModal(groupKey, identifier, level, baseCanvas) {
+  relaxCaptionState = { groupKey, identifier, level, baseCanvas, text: "", style: "sign" };
+
+  const overlay = document.createElement("div");
+  overlay.className = "relax-caption-overlay";
+  overlay.id = "relax-caption-overlay";
+  overlay.innerHTML = `
+    <div class="relax-caption-panel">
+      <div class="relax-caption-title">Aggiungi una scritta?</div>
+      <img class="relax-caption-preview" id="relax-caption-preview-canvas" alt="Anteprima" />
+      <div class="relax-caption-styles">
+        ${RELAX_CAPTION_STYLES.map((s) => `<button type="button" class="relax-caption-style-btn${s.key === "sign" ? " active" : ""}" data-style="${s.key}" onclick="setRelaxCaptionStyle('${s.key}')">${s.label}</button>`).join("")}
+      </div>
+      <div class="relax-caption-presets">
+        ${RELAX_CAPTION_PRESETS.map((p) => `<button type="button" class="relax-caption-preset-btn" data-preset="${escapeHtml(p)}" onclick="setRelaxCaptionText('${p.replace(/'/g, "\\'")}')">${escapeHtml(p)}</button>`).join("")}
+      </div>
+      <input type="text" class="relax-caption-input" id="relax-caption-input" placeholder="Oppure scrivi il tuo testo..." maxlength="${RELAX_CAPTION_MAX_LENGTH}" oninput="setRelaxCaptionText(this.value)" />
+      <div class="relax-caption-actions">
+        <button type="button" onclick="confirmRelaxCaptionDownload()">⬇️ Scarica</button>
+        <button type="button" class="secondary" onclick="triggerCanvasDownload(relaxCaptionState.baseCanvas, relaxCaptionState.groupKey, relaxCaptionState.identifier, relaxCaptionState.level); closeRelaxCaptionModal();">Scarica senza scritta</button>
+        <button type="button" class="relax-caption-close" onclick="closeRelaxCaptionModal()">Annulla</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  updateRelaxCaptionPreview();
+}
+
+async function handleDownloadRelaxImage(groupKey, identifier, level) {
+  const item = (RELAX_ITEMS_BY_ID[groupKey] || {})[String(identifier)];
+  if (!item) { alert("Dati NFT non disponibili per la ricomposizione."); return; }
+
+  try {
+    const canvas = await composeRelaxImage(groupKey, identifier, level, item.traits);
+    openRelaxCaptionModal(groupKey, identifier, level, canvas);
+  } catch (e) {
+    console.error(e);
+    alert("Errore nella generazione dell'immagine. Controlla che tutti gli asset siano caricati correttamente.");
+  }
 }
 </script>
 </body>
